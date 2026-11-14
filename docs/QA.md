@@ -13,9 +13,13 @@
 - Проверено отсутствие значений ELEVENLABS_API_KEY и GH_TOKEN в ресурсах, исходниках интерфейса, скриптах, workflow и сборке.
 
 Код отправлен в main: https://github.com/denischunaev117/CyberShield
-Все проверки приложения дополнительно успешно выполнены на GitHub Actions. Первый запуск публикации остановился на `actions/configure-pages`: `Get Pages site failed: Not Found`. После этого владелец включил Pages для GitHub Actions; повторная публикация запускается отдельно.
+Все проверки приложения дополнительно успешно выполнены на GitHub Actions. Сайт опубликован: https://denischunaev117.github.io/CyberShield/
 
-Задание публикации: https://github.com/denischunaev117/CyberShield/actions/runs/43630873931
+Подтверждён успешный шаг `Deploy checked build` и последующая проверка публичной страницы, 14 JS/CSS-ресурсов и всех 32 MP3 со сверкой SHA-256.
+
+Задание публикации: https://github.com/denischunaev117/CyberShield/actions/runs/43631606757
+
+Проверенная версия приложения: `dcdeb4b`.
 
 Архив CyberShield-web-100.zip содержит готовую статическую сборку. Сам архив не является опубликованным сайтом. API-ключи в нём не требуются.
 
