@@ -30,7 +30,7 @@ export function CallScene({
     <div className="call-scene" aria-live="polite">
       <div className="call-identity">
         <span className="call-avatar">
-          <Phone size={30} />
+          <Phone size={38} />
         </span>
         <h3>
           {scene.speaker === "narrator"
@@ -46,7 +46,7 @@ export function CallScene({
       {scene.audio && (
         <div className="voice-player">
           <div className={`voice-label ${playing ? "is-playing" : ""}`}>
-            <Volume2 size={16} />
+            <Volume2 size={20} />
             {playing ? "Собеседник говорит" : "Реплика собеседника"}
             <span>ElevenLabs</span>
           </div>
@@ -65,7 +65,7 @@ export function CallScene({
               } else element.pause();
             }}
           >
-            {playing ? <Pause size={18} /> : <Play size={18} />}{" "}
+            {playing ? <Pause size={22} /> : <Play size={22} />}{" "}
             {playing ? "Пауза" : "Слушать реплику"}
           </button>
           <audio
@@ -94,7 +94,7 @@ export function CallScene({
       </div>
       {scene.evidence && <EvidenceCard evidence={scene.evidence} />}
       <p className="call-hint">
-        <ShieldCheck size={14} />
+        <ShieldCheck size={18} />
         {scene.audio
           ? "Нажмите воспроизведение, когда будете готовы. Ответить можно и без звука."
           : "Это учебное событие после вашего решения. Выберите дальнейшее действие."}

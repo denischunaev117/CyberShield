@@ -1,4 +1,14 @@
 import CollectionsPage from "./components/CollectionsPage";
+import ShareStory from "./components/ShareStory";
+import {
+  DebriefAssessment,
+  OutcomeStatus,
+} from "./components/DebriefAssessment";
+import {
+  readPreferences,
+  savePreferences,
+  applyPreferences,
+} from "./platform/preferences";
 import { scenarioAudience } from "./content/audiences";
 import type { CompletionDetails } from "./collection-engine";
 import { useEffect, useRef, useState } from "react";
@@ -21,14 +31,18 @@ import {
   Mail,
   MessageCircle,
   MessageSquare,
+  Moon,
+  Sun,
   Package,
   Phone,
   Search,
   Settings2,
   Shield,
   ShieldCheck,
+  ShieldX,
   Sparkles,
   TrendingUp,
+  TriangleAlert,
   Users,
   X,
 } from "lucide-react";
@@ -97,7 +111,7 @@ function PhoneArt() {
             <b>Андрей</b>
             <small>сообщение в Viber</small>
           </div>
-          <Phone size={15} />
+          <Phone size={19} />
         </div>
         <div className="mock-bubble">
           Привет! Выручишь?
@@ -107,17 +121,17 @@ function PhoneArt() {
         <div className="mock-reply">
           Сначала позвоню тебе.
           <small>
-            19:42 <CheckCheck size={11} />
+            19:42 <CheckCheck size={14} />
           </small>
         </div>
         <div className="phone-bottom" />
       </div>
       <div className="floating-shield">
-        <ShieldCheck size={38} strokeWidth={1.5} />
+        <ShieldCheck size={48} strokeWidth={1.5} />
       </div>
       <div className="verified-note">
         <span>
-          <Check size={16} />
+          <Check size={20} />
         </span>
         <div>
           <b>Пауза. Проверка. Решение.</b>
@@ -134,14 +148,18 @@ export default function App() {
   const [channel, setChannel] = useState("all");
   const [query, setQuery] = useState("");
   const [onlyBelarus, setOnlyBelarus] = useState(false);
-  const [large, setLarge] = useState(false);
-  const [contrast, setContrast] = useState(false);
+  const [preferences, setPreferences] = useState(readPreferences);
+  const [preferencesNotice, setPreferencesNotice] = useState(false);
   const [settings, setSettings] = useState(false);
   const [active, setActive] = useState<Scenario | null>(null);
   const [progress, setProgress] = useState(readProgress);
   const [storageNotice, setStorageNotice] = useState(false);
   const catalog = useRef<HTMLElement>(null);
   const settingsDialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    applyPreferences(preferences);
+    setPreferencesNotice(!savePreferences(preferences));
+  }, [preferences]);
   useEffect(() => {
     if (settings) settingsDialog.current?.showModal();
     else settingsDialog.current?.close();
@@ -167,9 +185,7 @@ export default function App() {
     });
   }
   return (
-    <div
-      className={`app ${large ? "large-text" : ""} ${contrast ? "high-contrast" : ""}`}
-    >
+    <div className={`app ${preferences.lowVision ? "low-vision" : ""}`}>
       <a className="skip-link" href="#main">
         К содержимому
       </a>
@@ -183,7 +199,7 @@ export default function App() {
           }}
         >
           <span className="brand-icon">
-            <ShieldCheck size={25} />
+            <ShieldCheck size={31} />
           </span>
           КиберЩит
           <span className="brand-dot" />
@@ -196,6 +212,7 @@ export default function App() {
             { id: "collections", label: "Подборки", icon: BookOpen },
             { id: "progress", label: "Мой прогресс", icon: TrendingUp },
             { id: "guide", label: "Памятка", icon: BookOpen },
+            { id: "share", label: "Ваша история", icon: MessageCircle },
           ].map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -203,7 +220,7 @@ export default function App() {
               onClick={() => setPage(id)}
               aria-current={page === id ? "page" : undefined}
             >
-              <Icon size={20} />
+              <Icon size={25} />
               {label}
               {page === id && <span className="nav-dot" />}
             </button>
@@ -211,7 +228,7 @@ export default function App() {
         </nav>
         <div className="sidebar-note">
           <div className="note-icon">
-            <Heart size={20} />
+            <Heart size={25} />
           </div>
           <b>Ошибаться здесь — безопасно</b>
           <p>Практикуйтесь в своём темпе. Без оценок, спешки и осуждения.</p>
@@ -221,7 +238,7 @@ export default function App() {
           className="nav-button settings-link"
           onClick={() => setSettings(true)}
         >
-          <Settings2 size={19} />
+          <Settings2 size={24} />
           Настройки удобства
         </button>
         <div className="made-for">
@@ -236,7 +253,9 @@ export default function App() {
       <div className="workspace">
         <header className="topbar">
           <div className="breadcrumb">
-            Моё пространство <ChevronRight size={14} />
+            <span className="breadcrumb-parent">
+              Моё пространство <ChevronRight size={18} />
+            </span>
             <span>
               {page === "practice"
                 ? "Практика"
@@ -244,20 +263,44 @@ export default function App() {
                   ? "Подборки"
                   : page === "progress"
                     ? "Мой прогресс"
-                    : "Памятка"}
+                    : page === "share"
+                      ? "Ваша история"
+                      : "Памятка"}
             </span>
           </div>
           <div className="header-right">
+            <button
+              className="theme-toggle"
+              role="switch"
+              aria-label="Тёмная тема"
+              aria-checked={preferences.theme === "dark"}
+              onClick={() =>
+                setPreferences((p) => ({
+                  ...p,
+                  theme: p.theme === "dark" ? "light" : "dark",
+                }))
+              }
+            >
+              <Sun size={25} />
+              <span className="theme-track">
+                <span />
+              </span>
+              <Moon size={25} />
+              <span className="theme-name">
+                {preferences.theme === "dark" ? "Тёмная" : "Светлая"}
+              </span>
+            </button>
             <span className="private-label">
-              <LockKeyhole size={14} />
+              <LockKeyhole size={18} />
               Без регистрации
             </span>
             <button
               className="profile"
+              title="Настройки удобства"
               aria-label="О приложении и настройках"
               onClick={() => setSettings(true)}
             >
-              КЩ
+              <Settings2 size={24} />
             </button>
           </div>
         </header>
@@ -282,7 +325,7 @@ export default function App() {
               <section className="hero">
                 <div className="hero-copy">
                   <span className="hero-tag">
-                    <ShieldCheck size={15} />
+                    <ShieldCheck size={19} />
                     Реальные ситуации. Без реального риска.
                   </span>
                   <h2>
@@ -299,10 +342,10 @@ export default function App() {
                     className="primary"
                     onClick={() => setActive(scenarios[0])}
                   >
-                    Попробовать ситуацию <ArrowRight size={18} />
+                    Попробовать ситуацию <ArrowRight size={22} />
                   </button>
                   <div className="hero-footer">
-                    <Clock3 size={14} />
+                    <Clock3 size={18} />
                     От 3 минут <span />
                     Можно остановиться в любой момент
                   </div>
@@ -353,7 +396,7 @@ export default function App() {
                 </div>
                 <div className="collection-banner">
                   <span className="collection-symbol">
-                    <BookOpen size={22} />
+                    <BookOpen size={28} />
                   </span>
                   <div>
                     <span>НОВАЯ ПОДБОРКА</span>
@@ -396,7 +439,7 @@ export default function App() {
                     ))}
                   </div>
                   <label className="search">
-                    <Search size={17} />
+                    <Search size={21} />
                     <input
                       aria-label="Поиск ситуаций"
                       placeholder="Найти ситуацию"
@@ -424,7 +467,7 @@ export default function App() {
                       aria-pressed={channel === id}
                       onClick={() => setChannel(id)}
                     >
-                      <Icon size={14} />
+                      <Icon size={18} />
                       {label}
                     </button>
                   ))}
@@ -445,16 +488,16 @@ export default function App() {
                         </div>
                         <div className="scene-visual">
                           {s.channel === "call" ? (
-                            <Phone size={54} strokeWidth={1.2} />
+                            <Phone size={68} strokeWidth={1.2} />
                           ) : s.channel === "email" ? (
-                            <Mail size={54} strokeWidth={1.2} />
+                            <Mail size={68} strokeWidth={1.2} />
                           ) : s.channel === "web" ? (
-                            <LayoutGrid size={54} strokeWidth={1.2} />
+                            <LayoutGrid size={68} strokeWidth={1.2} />
                           ) : s.channel === "sms" ? (
                             s.topic === "Посылки и доставка" ? (
-                              <Package size={54} strokeWidth={1.2} />
+                              <Package size={68} strokeWidth={1.2} />
                             ) : (
-                              <MessageSquare size={54} strokeWidth={1.2} />
+                              <MessageSquare size={68} strokeWidth={1.2} />
                             )
                           ) : (
                             <>
@@ -464,7 +507,7 @@ export default function App() {
                                   ? "Новое сообщение"
                                   : channelNames[s.channel]}
                                 <span>
-                                  сейчас <CheckCheck size={11} />
+                                  сейчас <CheckCheck size={14} />
                                 </span>
                               </div>
                             </>
@@ -478,26 +521,26 @@ export default function App() {
                         <span className="card-topic">{s.topic}</span>
                         <h3>{s.title}</h3>
                         <span className="audience-tag">
-                          <Users size={12} />
+                          <Users size={15} />
                           {scenarioAudience(s).label}
                         </span>
                         <p>{s.description}</p>
                         <div className="card-bottom">
                           <span>
-                            <Clock3 size={14} />
+                            <Clock3 size={18} />
                             {s.duration}
                           </span>
                           <span>
                             {progress.some((p) => p.id === s.id) ? (
                               <>
-                                <Check size={14} />
+                                <Check size={18} />
                                 Пройдено
                               </>
                             ) : (
                               s.difficulty
                             )}
                           </span>
-                          <ArrowRight className="card-arrow" size={19} />
+                          <ArrowRight className="card-arrow" size={24} />
                         </div>
                       </div>
                     </button>
@@ -524,7 +567,7 @@ export default function App() {
               </section>
               <section className="roadmap-strip">
                 <div className="roadmap-icon">
-                  <Sparkles size={24} />
+                  <Sparkles size={30} />
                 </div>
                 <div>
                   <h3>Больше жизненных ситуаций — впереди</h3>
@@ -534,24 +577,24 @@ export default function App() {
                   </p>
                 </div>
                 <span>
-                  Следующие этапы <ArrowDown size={15} />
+                  Следующие этапы <ArrowDown size={19} />
                 </span>
               </section>
               <div className="coming-topics">
                 <span>
-                  <Phone size={15} />
+                  <Phone size={19} />
                   Больше голосовых историй
                 </span>
                 <span>
-                  <Mail size={15} />
+                  <Mail size={19} />
                   Электронные письма
                 </span>
                 <span>
-                  <Shield size={15} />
+                  <Shield size={19} />
                   Банки и платежи
                 </span>
                 <span>
-                  <Package size={15} />
+                  <Package size={19} />
                   Покупки и объявления
                 </span>
               </div>
@@ -624,7 +667,7 @@ export default function App() {
                 увереннее.
               </p>
               <div className="progress-summary">
-                <ShieldCheck size={40} />
+                <ShieldCheck size={50} />
                 <div>
                   <strong>
                     {completed} из {scenarios.length}
@@ -651,15 +694,23 @@ export default function App() {
                     className="primary"
                     onClick={() => setPage("practice")}
                   >
-                    Выбрать ситуацию <ArrowRight size={18} />
+                    Выбрать ситуацию <ArrowRight size={22} />
                   </button>
                 </div>
               ) : (
                 <div>
                   {[...progress].reverse().map((p, i) => (
                     <div className="progress-row" key={`${p.completedAt}-${i}`}>
-                      <span className="principle-icon">
-                        <Check size={20} />
+                      <span
+                        className={`principle-icon progress-outcome ${p.outcome}`}
+                      >
+                        {p.outcome === "risk" ? (
+                          <ShieldX size={25} />
+                        ) : p.outcome === "caution" ? (
+                          <TriangleAlert size={25} />
+                        ) : (
+                          <Check size={25} />
+                        )}
                       </span>
                       <div>
                         <b>{scenarios.find((s) => s.id === p.id)?.title}</b>
@@ -669,8 +720,8 @@ export default function App() {
                           {p.outcome === "safe"
                             ? "Безопасное решение"
                             : p.outcome === "risk"
-                              ? "Есть решения для повторного разбора"
-                              : "Стоит усилить проверку"}
+                              ? "Ошибка с последствиями — разберите и повторите"
+                              : "Остались последствия или неполная проверка"}
                         </small>
                       </div>
                       <button
@@ -679,7 +730,7 @@ export default function App() {
                           setActive(scenarios.find((s) => s.id === p.id)!)
                         }
                       >
-                        Повторить <ArrowRight size={16} />
+                        Повторить <ArrowRight size={20} />
                       </button>
                     </div>
                   ))}
@@ -687,9 +738,10 @@ export default function App() {
               )}
             </section>
           )}
+          {page === "share" && <ShareStory />}
           <footer className="footer">
             <span>
-              <ShieldCheck size={15} />
+              <ShieldCheck size={19} />
               КиберЩит · Практика безопасных решений
             </span>
             <span>Учебные ситуации. Настоящая уверенность.</span>
@@ -711,29 +763,38 @@ export default function App() {
         </button>
         <Settings2 className="dialog-icon" />
         <h2>Сделайте себе удобно</h2>
-        <p>Настройки действуют до перезагрузки страницы.</p>
+        <p>Выбранная тема и режим чтения сохраняются на этом устройстве.</p>
         <label className="setting-row">
-          <span>Крупный текст</span>
+          <span>
+            <b>Версия для слабовидящих</b>
+            <small>
+              Увеличенный текст и кнопки, чёткие границы, высокий контраст и
+              упрощённое оформление.
+            </small>
+          </span>
           <input
             type="checkbox"
-            checked={large}
-            onChange={(e) => setLarge(e.target.checked)}
-          />
-        </label>
-        <label className="setting-row">
-          <span>Повышенный контраст</span>
-          <input
-            type="checkbox"
-            checked={contrast}
-            onChange={(e) => setContrast(e.target.checked)}
+            checked={preferences.lowVision}
+            onChange={(e) =>
+              setPreferences((p) => ({ ...p, lowVision: e.target.checked }))
+            }
           />
         </label>
         <p className="quiet">
-          КиберЩит — учебное приложение для жителей Беларуси. Версия 1.0:{" "}
+          Контрастная версия работает и в светлой, и в тёмной теме. Обычный
+          масштаб браузера также можно увеличивать.
+        </p>
+        {preferencesNotice && (
+          <p role="status">
+            Не удалось сохранить настройки. Они действуют в этой вкладке.
+          </p>
+        )}
+        <p className="quiet">
+          КиберЩит — учебное приложение для жителей Беларуси. Версия 1.1:{" "}
           {scenarios.length} сценариев, без регистрации.
         </p>
         <button className="primary" onClick={() => setSettings(false)}>
-          Готово <Check size={17} />
+          Готово <Check size={21} />
         </button>
       </dialog>
       {active && (
@@ -782,7 +843,10 @@ function Simulation({
       top: transcript.current.scrollHeight,
       behavior: "smooth",
     });
-    if (ending || stopped) heading.current?.focus();
+    if (ending || stopped) {
+      heading.current?.focus({ preventScroll: true });
+      dialog.current?.scrollTo({ top: 0 });
+    }
   }, [node, ending, stopped]);
   function choose(id: string) {
     const c = advance(s, node, id);
@@ -814,7 +878,7 @@ function Simulation({
     >
       <div className="simulation-top">
         <span>
-          <ShieldCheck size={18} />
+          <ShieldCheck size={22} />
           Учебная симуляция
         </span>
         <button
@@ -825,13 +889,13 @@ function Simulation({
             else setStopped(true);
           }}
         >
-          <X size={21} />
+          <X size={26} />
         </button>
       </div>
       {!started ? (
         <div className="scenario-intro">
           <span className={`intro-icon ${s.channel}`}>
-            <ChannelIcon channel={s.channel} size={32} />
+            <ChannelIcon channel={s.channel} size={40} />
           </span>
           <div className="eyebrow">
             {s.channel === "call"
@@ -841,7 +905,7 @@ function Simulation({
           <h2>{s.title}</h2>
           <p>{s.description}</p>
           <div className="scenario-audience">
-            <Users size={18} />
+            <Users size={22} />
             <div>
               <b>Кому особенно пригодится</b>
               <span>{scenarioAudience(s).label}</span>
@@ -858,16 +922,16 @@ function Simulation({
           )}
           <div className="intro-facts">
             <span>
-              <Clock3 size={17} />
+              <Clock3 size={21} />
               {s.duration}
             </span>
             <span>
-              <MessageCircle size={17} />
+              <MessageCircle size={21} />
               Не менее 3 вариантов ответа
             </span>
           </div>
           <div className="intro-notice">
-            <LockKeyhole size={20} />
+            <LockKeyhole size={25} />
             <p>
               Всё происходит внутри приложения. Деньги не переводятся, сообщения
               никому не отправляются. Можно сделать паузу в любой момент.
@@ -879,12 +943,12 @@ function Simulation({
             ситуациях.
           </p>
           <button className="primary" onClick={() => setStarted(true)}>
-            Начать ситуацию <ArrowRight size={18} />
+            Начать ситуацию <ArrowRight size={22} />
           </button>
         </div>
       ) : stopped ? (
         <div className="stopped">
-          <Heart size={40} />
+          <Heart size={50} />
           <h2 tabIndex={-1} ref={heading}>
             Можно сделать паузу
           </h2>
@@ -902,21 +966,23 @@ function Simulation({
         </div>
       ) : ending ? (
         <div className="debrief">
-          <div className={`outcome-icon ${ending.outcome}`}>
-            <ShieldCheck size={35} />
-          </div>
+          <OutcomeStatus scenario={s} endingId={node} steps={steps} />
           <div className="eyebrow">РАЗБОР СИТУАЦИИ</div>
           <h2 tabIndex={-1} ref={heading}>
             {ending.title}
           </h2>
-          <p className="ending-description">{ending.message}</p>
+          <div className={`consequence-summary ${ending.outcome}`}>
+            <b>Чем закончились ваши действия</b>
+            <p className="ending-description">{ending.message}</p>
+          </div>
           <div className="reality">
-            <CircleHelp size={18} />
+            <CircleHelp size={22} />
             {s.reality === "legitimate"
               ? "В этой истории обращение было настоящим."
               : "В этой истории действовал мошенник."}
           </div>
-          <h3>Ваши решения и их значение</h3>
+          <DebriefAssessment scenario={s} endingId={node} steps={steps} />
+          <h3>Весь ход ваших решений</h3>
           <ol className="decision-list">
             {steps.map((step, i) => (
               <li key={i}>
@@ -928,7 +994,7 @@ function Simulation({
                     {step.choice.assessment === "safe"
                       ? "Безопасное действие"
                       : step.choice.assessment === "risk"
-                        ? "Рискованный шаг"
+                        ? "Ошибка · опасное действие"
                         : "Проверки пока недостаточно"}
                   </span>
                   <b>{step.choice.text}</b>
@@ -945,7 +1011,7 @@ function Simulation({
           </ol>
           <div className="lesson-box">
             <h3>
-              <BookOpen size={20} />
+              <BookOpen size={25} />
               Что взять с собой
             </h3>
             <ul>
@@ -979,11 +1045,11 @@ function Simulation({
             {onNext && (
               <button className="primary" onClick={onNext}>
                 {nextLabel || "Следующая история"}
-                <ArrowRight size={17} />
+                <ArrowRight size={21} />
               </button>
             )}
             <button className="primary" onClick={restart}>
-              Попробовать другой путь <ArrowRight size={18} />
+              Попробовать другой путь <ArrowRight size={22} />
             </button>
             <button className="secondary" onClick={onClose}>
               {onNext ? "К маршруту подборки" : "К ситуациям"}
@@ -994,13 +1060,13 @@ function Simulation({
         <div className="simulation-layout">
           <aside className="simulation-context">
             <button className="text-button" onClick={() => setStopped(true)}>
-              <ArrowLeft size={16} />К практике
+              <ArrowLeft size={20} />К практике
             </button>
             <span className="eyebrow">СИТУАЦИЯ</span>
             <h2>{s.title}</h2>
             <p>{s.nodes[s.start].context || s.description}</p>
             <div className="context-tip">
-              <Shield size={22} />
+              <Shield size={28} />
               <p>
                 Не спешите. Выберите действие, которое предприняли бы в жизни.
               </p>
@@ -1010,7 +1076,7 @@ function Simulation({
                 Остановить ситуацию
               </button>
               <button className="text-button" onClick={() => setStopped(true)}>
-                <Heart size={16} />
+                <Heart size={20} />
                 Мне некомфортно
               </button>
             </div>
@@ -1026,10 +1092,10 @@ function Simulation({
               <span>▥ ▰</span>
             </div>
             <div className="chat-header">
-              <ArrowLeft size={20} />
+              <ArrowLeft size={25} />
               <span className="contact-avatar">
                 {current.speaker === "narrator" ? (
-                  <BookOpen size={18} />
+                  <BookOpen size={22} />
                 ) : (
                   identity!.sender[0]
                 )}
@@ -1054,9 +1120,9 @@ function Simulation({
               </div>
               {current.speaker === "narrator" ? null : identity!.channel ===
                 "viber" ? (
-                <Phone size={20} />
+                <Phone size={25} />
               ) : (
-                <Ellipsis size={22} />
+                <Ellipsis size={28} />
               )}
             </div>
             {identity!.channel === "call" ? (
@@ -1090,7 +1156,7 @@ function Simulation({
                     <div className="bubble outgoing">
                       {step.choice.text}
                       <small>
-                        <CheckCheck size={13} />
+                        <CheckCheck size={16} />
                       </small>
                     </div>
                   </div>
@@ -1123,11 +1189,11 @@ function Simulation({
                 <button key={`${node}-${c.id}`} onClick={() => choose(c.id)}>
                   <span>{i + 1}</span>
                   {c.text}
-                  <ChevronRight size={16} />
+                  <ChevronRight size={20} />
                 </button>
               ))}
               <span className="choice-footnote">
-                <LockKeyhole size={11} />
+                <LockKeyhole size={14} />
                 Выбирайте ответ — вводить личные данные не нужно
               </span>
             </div>

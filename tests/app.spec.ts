@@ -100,9 +100,8 @@ test("mobile layout, search and keyboard close", async ({ page }) => {
   await page.getByRole("button", { name: "Попробовать ситуацию" }).click();
   await page.keyboard.press("Escape");
   await expect(page.locator(".simulation-dialog")).toHaveCount(0);
-  await page.getByRole("button", { name: "Настройки удобства" }).click();
-  await page.getByLabel("Крупный текст").check();
-  await page.getByLabel("Повышенный контраст").check();
+  await page.getByRole("button", { name: "О приложении и настройках" }).click();
+  await page.getByLabel("Версия для слабовидящих", { exact: false }).check();
   await page.getByRole("button", { name: "Готово", exact: true }).click();
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),

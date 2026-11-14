@@ -17,7 +17,7 @@ export function EvidenceCard({
     <details className={`evidence-card evidence-${evidence.kind}`}>
       <summary>
         <span className="evidence-symbol">
-          <Icon size={19} />
+          <Icon size={24} />
         </span>
         <span>
           <small>
@@ -25,7 +25,7 @@ export function EvidenceCard({
           </small>
           <b>{evidence.title}</b>
         </span>
-        <ChevronDown className="evidence-chevron" size={17} />
+        <ChevronDown className="evidence-chevron" size={21} />
       </summary>
       <div className="evidence-content">
         <span className="evidence-stamp">УЧЕБНЫЙ МАТЕРИАЛ</span>

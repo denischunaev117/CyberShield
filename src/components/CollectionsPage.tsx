@@ -94,15 +94,15 @@ export default function CollectionsPage({
           </p>
           <div className="collection-how">
             <span>
-              <Layers3 size={19} />
+              <Layers3 size={24} />
               10 историй в подборке
             </span>
             <span>
-              <Pause size={19} />
+              <Pause size={24} />
               Можно продолжить позже
             </span>
             <span>
-              <BookOpen size={19} />
+              <BookOpen size={24} />
               Общий урок и необязательный квиз
             </span>
           </div>
@@ -113,7 +113,7 @@ export default function CollectionsPage({
               return (
                 <article className={`learning-card learning-${i}`} key={c.id}>
                   <div className="learning-cover">
-                    <Layers3 size={34} strokeWidth={1.2} />
+                    <Layers3 size={42} strokeWidth={1.2} />
                     <span>ПОДБОРКА 0{i + 1}</span>
                   </div>
                   <div className="learning-body">
@@ -125,7 +125,7 @@ export default function CollectionsPage({
                       ))}
                     </div>
                     <div className="learning-meta">
-                      <Clock3 size={15} />
+                      <Clock3 size={19} />
                       {c.duration}
                     </div>
                     <div className="collection-progress">
@@ -149,7 +149,7 @@ export default function CollectionsPage({
                         : done
                           ? "Продолжить подборку"
                           : "Открыть подборку"}
-                      <ArrowRight size={17} />
+                      <ArrowRight size={21} />
                     </button>
                   </div>
                 </article>
@@ -164,14 +164,14 @@ export default function CollectionsPage({
       ) : (
         <>
           <button className="text-button" onClick={() => setSelected(null)}>
-            <ArrowLeft size={16} />
+            <ArrowLeft size={20} />
             Все подборки
           </button>
           <div className="eyebrow">ПРАКТИКА С ОБЩИМ СМЫСЛОМ</div>
           <h1>{collection.title}</h1>
           <p className="page-intro">{collection.description}</p>
           <p className="audience-note">
-            <Users size={16} />
+            <Users size={20} />
             {collection.audience}
           </p>
           {!run || run.results.length < collection.scenarioIds.length ? (
@@ -197,7 +197,7 @@ export default function CollectionsPage({
                   }
                 >
                   {run ? "Продолжить" : "Начать подборку"}
-                  <ArrowRight size={18} />
+                  <ArrowRight size={22} />
                 </button>
               </div>
               <div className="route-list">
@@ -211,7 +211,7 @@ export default function CollectionsPage({
                     >
                       <span className="route-number">
                         {result ? (
-                          <Check size={17} />
+                          <Check size={21} />
                         ) : (
                           String(i + 1).padStart(2, "0")
                         )}
@@ -284,7 +284,7 @@ function CollectionSummary({
     <div className="collection-summary">
       <div className="summary-heading">
         <span>
-          <ShieldCheck size={32} />
+          <ShieldCheck size={40} />
         </span>
         <div>
           <div className="eyebrow">ВЫ ПРОШЛИ ВСЮ ПОДБОРКУ</div>
@@ -329,7 +329,7 @@ function CollectionSummary({
                   ? "Безопасный исход"
                   : r.outcome === "caution"
                     ? "Остались последствия или вопросы"
-                    : "Есть рискованные последствия"}
+                    : "Ошибка с последствиями"}
               </span>
               <h3>{s.title}</h3>
               <b>{s.endings[r.endingId].title}</b>
@@ -374,7 +374,7 @@ function CollectionSummary({
               {run.quiz.status === "declined"
                 ? "Всё-таки пройти квиз"
                 : "Да, пройти квиз"}
-              <ArrowRight size={17} />
+              <ArrowRight size={21} />
             </button>
             {run.quiz.status === "not-started" && (
               <button
@@ -442,7 +442,7 @@ function CollectionSummary({
         </section>
       ) : null}
       <div className="collection-finish">
-        <BookOpen size={20} />
+        <BookOpen size={25} />
         <p>
           Можно вернуться к итогу в любое время через раздел «Подборки» в этом
           браузере. Начать заново — значит заменить результат этой подборки;
@@ -450,7 +450,7 @@ function CollectionSummary({
         </p>
         <button className="text-button" onClick={onRestart}>
           Пройти подборку заново
-          <ArrowRight size={16} />
+          <ArrowRight size={20} />
         </button>
       </div>
     </div>
@@ -495,7 +495,7 @@ function QuizQuestionCard({
           onClick={() => onChange(answerQuiz(c, run, q.id, selected))}
         >
           {current === c.quiz.length ? "Закончить квиз" : "Следующий вопрос"}
-          <ArrowRight size={16} />
+          <ArrowRight size={20} />
         </button>
         <button
           className="text-button"
