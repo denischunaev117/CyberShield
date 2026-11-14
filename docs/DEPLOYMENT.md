@@ -2,7 +2,7 @@
 
 Опубликовано: https://denischunaev117.github.io/CyberShield/
 
-[Успешное задание публикации и проверки публичных ресурсов](https://github.com/denischunaev117/CyberShield/actions/runs/43631606757). Проверенная версия приложения — `dcdeb4b`.
+[Успешное задание публикации и проверки публичных ресурсов](https://github.com/denischunaev117/CyberShield/actions/runs/43638052022). Проверенная версия приложения — `ae5ef7e`.
 
 Сайт — статическая production-сборка из `dist/`. Серверный ключ ElevenLabs для неё не нужен: MP3 уже созданы. В сборку нельзя включать `.env`, ключи или окружение генератора.
 
