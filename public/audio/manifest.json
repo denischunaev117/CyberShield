@@ -1,0 +1,258 @@
+{
+  "call-bank-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "e190c689ab9135d7e8028381e43e57b959ab45467f6a3b5d3a0607291d14ceff",
+    "sha256": "1ac7f7ba515fdc33e774b4b34f7904412accc2f72abe3db244db5afc672cc5ce",
+    "characters": 114
+  },
+  "call-bank-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "fc00c3474d58c67a7dccad32347462b7ccdb40a37f2e138a688ded1f8053f479",
+    "sha256": "6be78780dbdad59059d329fa7a01e9599b037525e6c2d98c02d60245fa47fb98",
+    "characters": 130
+  },
+  "call-mobile-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "b36975b754f36ee2a977121b23daa88c68c2ca43ac1801eb8cf2deb6bce5d64a",
+    "sha256": "fcd9b0d20b9a99667fbbe20b81d0d9e5bf832ee60e6fd2489226410e1ffa72af",
+    "characters": 116
+  },
+  "call-mobile-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "8cf64e970bb97bf48bdcca6d41d8693f72b84d025d2c06e327a32568e0540dbe",
+    "sha256": "87f9bfa801e645a7e40314b0c825e03a3838244addcda5096cd4669343967655",
+    "characters": 113
+  },
+  "call-parcel-real-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "035c5020914b4d8a3edbe13a76818e70ba29fee1f7b14538152d8861a6aa84f2",
+    "sha256": "c4aa55823c0ecf3c48db4e457797b6354cd31a5bca2ae0f52149f8ebd0a2a5ac",
+    "characters": 128
+  },
+  "call-parcel-real-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "23d9ad493f009df5b82eaddac0137252885e731924f22d362e8a303f56ef052d",
+    "sha256": "617b71c23af8d4e2c50e9ee7f60d68bb1cdd2ce969583d1bf3b43998cd58d791",
+    "characters": 131
+  },
+  "call-family-real-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "iP95p4xoKVk53GoZ742B",
+    "fingerprint": "82dc2669941f997f4dff2b2f16f92c0eb52e25f8fd093c9828d274fb55f9f6fc",
+    "sha256": "7aedf0563c8a3484ae9593a3629b6e4cd5141fefd80c0ad083d1fbb158e098d4",
+    "characters": 101
+  },
+  "call-family-real-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "iP95p4xoKVk53GoZ742B",
+    "fingerprint": "cae76aaa9ee023f566ed993eba2f46f272f965623b846f2d672b14ada2ceb289",
+    "sha256": "b161e5549c1e52043278954dbc6acb2475cd54e62144d1ff0d4e793a8c3db436",
+    "characters": 139
+  },
+  "call-meter-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "8785d2c666b0afc5cb83772d5d6542a54b0dab4b1f706c72e55a4da6cdd93682",
+    "sha256": "738f499d82f9f65d9ea72da014b9b0b960cc2f8f157f9b9d2223e6956e32b4dc",
+    "characters": 138
+  },
+  "call-meter-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "89824dda1df371f3f41c9796b924407f200d3369d5bb18271dc4842a6c24b8fc",
+    "sha256": "9ec9580f6eded0644113be61184b94b5ce9168995026455bac0226d6e3d31a1a",
+    "characters": 122
+  },
+  "call-pension-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "862db54c528d110ba2d88cf295477698ca56db40ccae8b1f38e8de4035acf144",
+    "sha256": "1aca1b7f66967b33957e5598baf5403a1cd036190371ec5e21b46f1948332f42",
+    "characters": 139
+  },
+  "call-pension-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "6bf39695cb7fa5e8acfeb4b309f3437b917b7eb0d62762dc54c9a7a1b63b0543",
+    "sha256": "477e0fbe4681ddb4a4e650035cab2a08ce995ef9a05c4e6dbaf3d0c7a46c7775",
+    "characters": 127
+  },
+  "call-clinic-real-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "78cadee008c28adf009da5365f778c609167bc1b7472f7df45c0a98a81943c05",
+    "sha256": "e69d2e7ac7e7634a04045e79734652f20fdaee661269a2d20c36dd415cb4a54c",
+    "characters": 146
+  },
+  "call-clinic-real-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "0bff655c0c6e624ccd44943d135297c84392216c6e9d8c2892f459d0e2b6976a",
+    "sha256": "69c31827a55e4dfb29acb5c1b66d6cbed14d5059361401d5010ac959c099164b",
+    "characters": 136
+  },
+  "call-wonder-cure-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "a74dba39c77c620f94a5209b48843dfb8de178d37bfb917c350e77602a3c1958",
+    "sha256": "f2e20761ce2f1142e3bd79e4a5006d354965216f36e12f3531b2b052d47c26a5",
+    "characters": 141
+  },
+  "call-wonder-cure-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "51ca92ee1867052bde35d0eccfaf399c294ee926bcd50e3bf6a72906bd1521af",
+    "sha256": "bb922d2e97de2c0427493fa1e91298a2453388c7fd30c7c09ea5bd76bb8b1786",
+    "characters": 121
+  },
+  "call-home-service-real-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "f5973f0e990a8275c8f3ec979779b9e67d3c6a82f5ac6a7008302c2ec66953e0",
+    "sha256": "f90f7c33a16bd38ed1e85ac26795a1691c24d08c4e5a85c3f95e6a7f0026fa46",
+    "characters": 128
+  },
+  "call-home-service-real-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "01108b51a933ef6f3d20d5d800424bb928555a018170e90023373be9099d14a0",
+    "sha256": "80a82b03fde9da4cdb20b819047b3e87816282c4a2d11609c736263b99083e32",
+    "characters": 141
+  },
+  "call-mirror-credit-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "19802f0a380370e56252487aba07274ce0cc6f177120f95c25fe66767311bd01",
+    "sha256": "4d4efa8a364d35e07f1e7d3293309ab369cbf79f381d0af3a33f8326b0475070",
+    "characters": 139
+  },
+  "call-mirror-credit-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "7a5630e65e465a58ea6656ae7ae5b622ea1d4c847707d5a073b59d73714de1b2",
+    "sha256": "e798c071e506941101db87857f013fa1fb7588ae5cf26a10b863c74c45f1fdfd",
+    "characters": 137
+  },
+  "call-cash-inspection-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "d8b9bbc2f250708a5032c77bdc827e2ffb6f9de9e7be3af5255249a55fdf020b",
+    "sha256": "0fdd7e7d337c28f3d25822c6f7956fcf14a65dcd2b4a36d47b8cfd22711b8032",
+    "characters": 144
+  },
+  "call-cash-inspection-document.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "64e8b8f647f3efcb8f64698cf4defdfdf47d6fb6e8e90e41959792322233bbe9",
+    "sha256": "9134e5d4e1586f035b3dfe423c2afa9fc02ec76a5beb099341deee6478852ef1",
+    "characters": 123
+  },
+  "call-tax-appointment-real-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "2ec1048edec3a8aa05cd4eeb4c8ab2b54df1abc3676c9efdf0da41ec4487d1b7",
+    "sha256": "7bfc278cf6d0487905de5100a0410cbf2ca9752d10a0d99f645fb22e26ec0694",
+    "characters": 150
+  },
+  "call-tax-appointment-real-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "6fdee8251267b322df6e123e196119ed5f5f6528ad9e76e50b3d68afe3db0222",
+    "sha256": "08fc66dadbeadd3d2df35ec6531b814f0593120ea325fbc1b884a866000fba09",
+    "characters": 133
+  },
+  "call-secret-operation-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "46957ef17e45fce9f992b8230453a66e4765051eda1740a38415e66ef8b3b74f",
+    "sha256": "820aaa23a97a1b9d87f0e2f7b966ee3f7ddb001acfaa99d22cded49043366557",
+    "characters": 131
+  },
+  "call-secret-operation-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+    "fingerprint": "6418ed19157e50251e82a49dcdb1c8996c6e6140283aa07d9e5ec267124c54f1",
+    "sha256": "71dc21a0ca8237f6fd1c4d3df5692fe5a08f34f737e8e7271a82f22a8ab22b03",
+    "characters": 136
+  },
+  "call-relative-accident-real-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "iP95p4xoKVk53GoZ742B",
+    "fingerprint": "dc6caaabda8cb87bbb91c4de4a04f497b4352d00341710bec24846225081201b",
+    "sha256": "e4b3c1e919f20621cd53f365733ddfb066ef0ac51c4501865b519eb4c2d5f355",
+    "characters": 127
+  },
+  "call-relative-accident-real-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "iP95p4xoKVk53GoZ742B",
+    "fingerprint": "f0d57399455e1a905022469face388085ddcb64b73c22cff229bc08b4d7579d3",
+    "sha256": "fad32968de8b9031bc7f1c5537ae4e403755aab89d9c6f332a9f7605ef94a571",
+    "characters": 116
+  },
+  "call-import-compensation-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "66e07f5856fe899ec7dcbad4ac343d3ae463714942faa98b165a0e464b20e66d",
+    "sha256": "719a01d83d5969fe1252b1f49c09385d9d156e29aebb7463248271934ac8e717",
+    "characters": 137
+  },
+  "call-import-compensation-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "EXAVITQu4vr4xnSDxMaL",
+    "fingerprint": "7431dce7ad03272b0c4aefb60ebb4f5b1770d90e709772028af10018d59cdc26",
+    "sha256": "9367b61713e83fc467ed718b34bcbd641f57af531cb3759750658bd62158d646",
+    "characters": 131
+  },
+  "call-protect-property-start.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "7d6cbcae97908aa58a8fbaffe4c2eee1ec13f7a12729e3b49a7cd1435d75648f",
+    "sha256": "316a04f349709abbad1782827a5b0337f32f61b831dc288cba8dc3d466c0ff7c",
+    "characters": 125
+  },
+  "call-protect-property-detail.mp3": {
+    "provider": "ElevenLabs",
+    "model": "eleven_multilingual_v2",
+    "voice_id": "onwK4e9ZLuTAKqWW03F9",
+    "fingerprint": "f192943686c8d9261c1b1c31df00b76eec968c356a71d4aeaf8c458ec5aac295",
+    "sha256": "930b64af5519a262c9cdf47ec923c0f83d58177b878bcd7806b7b43b2aa32df5",
+    "characters": 113
+  }
+}
