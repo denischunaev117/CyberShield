@@ -55,6 +55,7 @@ python3 scripts/generate-voices.py
 - [docs/BELARUS_CATALOG.md](docs/BELARUS_CATALOG.md), [docs/SCENARIO_CATALOG.md](docs/SCENARIO_CATALOG.md) — редакционные реестры пользовательских PDF; это отдельные списки идей, не счётчик готовых сценариев.
 - [docs/COLLECTIONS.md](docs/COLLECTIONS.md) — маршруты, итог и необязательный квиз.
 - [docs/ANDROID.md](docs/ANDROID.md) — план переноса в устанавливаемый APK.
+- [docs/QA.md](docs/QA.md) — результаты проверки и ограничения.
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — публикация проверенной сборки через GitHub Pages.
 
 ## Границы текущей версии
