@@ -229,7 +229,7 @@ export function assessDebrief(s: Scenario, endingId: string, steps: Step[]) {
     ending.outcome === "risk"
       ? "Допущена серьёзная ошибка"
       : ending.outcome === "caution" && mistakes.length
-        ? "Ошибка допущена. Последствия остаются"
+        ? "Вы допустили ошибку. Проверьте последствия"
         : ending.outcome === "caution"
           ? "Проверка или решение требуют внимания"
           : mistakes.length

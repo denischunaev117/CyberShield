@@ -60,7 +60,7 @@ test("stopping after paying still shows the mistake and retained loss", async ({
   await page.locator(".choices>button").nth(2).click();
   await page.locator(".choices>button").first().click();
   await expect(page.locator(".outcome-status.danger")).toContainText(
-    "Последствия остаются",
+    "Проверьте последствия",
   );
   await expect(page.locator(".consequence-summary")).toContainText(
     "уже отправлена",

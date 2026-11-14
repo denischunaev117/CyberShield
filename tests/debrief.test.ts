@@ -21,7 +21,7 @@ for (const s of scenarios)
           steps.some((step) => step.choice.assessment === "risk")
         ) {
           assert.equal(report.tone, "danger");
-          assert.match(report.label, /Последствия остаются/);
+          assert.match(report.label, /ошибку/);
         }
         for (const mistake of report.mistakes) {
           assert.equal(steps[mistake.number - 1].choice.id, mistake.choice.id);
@@ -47,4 +47,19 @@ test("two payments retain both mistakes; stopping after the first payment retain
     assessDebrief(s, stop.choice.next, [first, stop]).tone,
     "danger",
   );
+});
+test("an intercepted disclosure to genuine support is an error without an invented loss", () => {
+  const s = scenarios.find((s) => s.id === "call-parcel-real")!;
+  function find(node: string, steps: Step[]): Step[] | undefined {
+    if (s.endings[node]) return node === "overshare" ? steps : undefined;
+    for (const choice of s.nodes[node].choices) {
+      const found = find(choice.next, [...steps, { node, choice }]);
+      if (found) return found;
+    }
+  }
+  const report = assessDebrief(s, "overshare", find(s.start, [])!);
+  assert.ok(report.mistakes.length > 0);
+  assert.match(report.label, /ошибку/);
+  assert.doesNotMatch(report.label, /потеря|потеряли|Последствия остаются/);
+  assert.match(s.endings.overshare.message, /остановил/);
 });
