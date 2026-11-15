@@ -404,6 +404,31 @@ export const suspiciousMessages: {
     text: "Поддержка: скачайте приложение для защиты телефона.",
     expected: ["device-control"],
   },
+  {
+    source: "priorbank",
+    text: "Скинь реквизиты карты для получения денег.",
+    expected: ["card-details"],
+  },
+  {
+    source: "belarusbank",
+    text: "Подтвердите данные вашей карты.",
+    expected: ["card-details"],
+  },
+  {
+    source: "telegram",
+    text: "Подтвердите код из СМС.",
+    expected: ["account-alarm"],
+  },
+  {
+    source: "priorbank",
+    text: "Вам начислен бонус, пройдите верификацию.",
+    expected: ["easy-benefit", "account-alarm"],
+  },
+  {
+    source: "alfabank",
+    text: "Займи 200 до завтра.",
+    expected: ["friendly-loan"],
+  },
 ];
 export const neutralMessages = [
   "Встречаемся завтра у входа в библиотеку.",

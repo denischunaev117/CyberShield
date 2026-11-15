@@ -28,6 +28,11 @@ test("every documented rule example is recognized, not just its first example", 
     for (const text of r.examples) assert.ok(r.test(text), `${r.id}: ${text}`);
 });
 test("indirect warnings stay contextual; dangerous combinations escalate", () => {
+  assert.ok(
+    !analyzeMessage(
+      "Скинь реквизиты карты для получения денег.",
+    ).ruleIds.includes("unexpected-payment"),
+  );
   assert.equal(
     analyzeMessage("Привет, выручишь до завтра?").level,
     "attention",
