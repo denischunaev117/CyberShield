@@ -1,3 +1,12 @@
+import { recordLearningStat } from "./platform/learning-stats";
+import Navigation from "./components/Navigation";
+import FeatureRouter, { warmLocalTools } from "./features/FeatureRouter";
+import {
+  pageNames,
+  type PageId,
+  type FeaturePage,
+  type ScenarioCompletion,
+} from "./features/types";
 import CollectionsPage from "./components/CollectionsPage";
 import ShareStory from "./components/ShareStory";
 import {
@@ -41,7 +50,6 @@ import {
   ShieldCheck,
   ShieldX,
   Sparkles,
-  TrendingUp,
   TriangleAlert,
   Users,
   X,
@@ -143,7 +151,14 @@ function PhoneArt() {
 }
 
 export default function App() {
-  const [page, setPage] = useState("practice");
+  const [page, setPage] = useState<PageId>(() =>
+    new URLSearchParams(location.search).has("lesson")
+      ? "classroom"
+      : "practice",
+  );
+  const [activityCompletion, setActivityCompletion] = useState<
+    ScenarioCompletion | undefined
+  >();
   const [topic, setTopic] = useState("Все ситуации");
   const [channel, setChannel] = useState("all");
   const [query, setQuery] = useState("");
@@ -156,6 +171,20 @@ export default function App() {
   const [storageNotice, setStorageNotice] = useState(false);
   const catalog = useRef<HTMLElement>(null);
   const settingsDialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const load = () => {
+      void warmLocalTools().then((results) => {
+        if (results.every((r) => r.status === "fulfilled"))
+          document.documentElement.dataset.localTools = "ready";
+      });
+    };
+    const timer = setTimeout(load, 1800);
+    window.addEventListener("online", load);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("online", load);
+    };
+  }, []);
   useEffect(() => {
     applyPreferences(preferences);
     setPreferencesNotice(!savePreferences(preferences));
@@ -174,7 +203,23 @@ export default function App() {
         .toLowerCase()
         .includes(query.toLowerCase()),
   );
-  function saveResult(s: Scenario, outcome: "safe" | "caution" | "risk") {
+  function navigate(next: PageId) {
+    setPage(next);
+    if (next !== "classroom") {
+      const u = new URL(location.href);
+      if (u.searchParams.has("lesson")) {
+        u.searchParams.delete("lesson");
+        history.replaceState(null, "", u);
+      }
+    }
+  }
+  function saveResult(
+    s: Scenario,
+    outcome: "safe" | "caution" | "risk",
+    details?: CompletionDetails,
+  ) {
+    if (details && !recordLearningStat(s.id, outcome, details))
+      setStorageNotice(true);
     setProgress((previous) => {
       const next = [
         ...previous,
@@ -189,84 +234,18 @@ export default function App() {
       <a className="skip-link" href="#main">
         К содержимому
       </a>
-      <aside className="sidebar">
-        <a
-          className="brand"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            setPage("practice");
-          }}
-        >
-          <span className="brand-icon">
-            <ShieldCheck size={31} />
-          </span>
-          КиберЩит
-          <span className="brand-dot" />
-        </a>
-        <div className="brand-caption">УВЕРЕННОСТЬ В ЦИФРОВОМ МИРЕ</div>
-        <div className="nav-label">ВАШЕ ПРОСТРАНСТВО</div>
-        <nav aria-label="Основная навигация">
-          {[
-            { id: "practice", label: "Практика", icon: LayoutGrid },
-            { id: "collections", label: "Подборки", icon: BookOpen },
-            { id: "progress", label: "Мой прогресс", icon: TrendingUp },
-            { id: "guide", label: "Памятка", icon: BookOpen },
-            { id: "share", label: "Ваша история", icon: MessageCircle },
-          ].map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              className={`nav-button ${page === id ? "selected" : ""}`}
-              onClick={() => setPage(id)}
-              aria-current={page === id ? "page" : undefined}
-            >
-              <Icon size={25} />
-              {label}
-              {page === id && <span className="nav-dot" />}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-note">
-          <div className="note-icon">
-            <Heart size={25} />
-          </div>
-          <b>Ошибаться здесь — безопасно</b>
-          <p>Практикуйтесь в своём темпе. Без оценок, спешки и осуждения.</p>
-          <span>Для жизни. Для каждого.</span>
-        </div>
-        <button
-          className="nav-button settings-link"
-          onClick={() => setSettings(true)}
-        >
-          <Settings2 size={24} />
-          Настройки удобства
-        </button>
-        <div className="made-for">
-          <span className="belarus-mark">✣</span>
-          <span>
-            Создано для Беларуси
-            <br />
-            <small>На русском. О понятных ситуациях.</small>
-          </span>
-        </div>
-      </aside>
+      <Navigation
+        page={page}
+        onNavigate={navigate}
+        onSettings={() => setSettings(true)}
+      />
       <div className="workspace">
         <header className="topbar">
           <div className="breadcrumb">
             <span className="breadcrumb-parent">
               Моё пространство <ChevronRight size={18} />
             </span>
-            <span>
-              {page === "practice"
-                ? "Практика"
-                : page === "collections"
-                  ? "Подборки"
-                  : page === "progress"
-                    ? "Мой прогресс"
-                    : page === "share"
-                      ? "Ваша история"
-                      : "Памятка"}
-            </span>
+            <span>{pageNames[page]}</span>
           </div>
           <div className="header-right">
             <button
@@ -572,8 +551,8 @@ export default function App() {
                 <div>
                   <h3>Больше жизненных ситуаций — впереди</h3>
                   <p>
-                    Расширяем библиотеку до минимум 100 сценариев: звонки,
-                    письма, покупки и общение с близкими.
+                    В библиотеке уже 100 сценариев: звонки, письма, покупки и
+                    общение с близкими.
                   </p>
                 </div>
                 <span>
@@ -607,7 +586,7 @@ export default function App() {
                   key={props.scenario.id}
                   {...props}
                   onComplete={(s, outcome, details) => {
-                    saveResult(s, outcome);
+                    saveResult(s, outcome, details);
                     props.onComplete(s, outcome, details);
                   }}
                 />
@@ -739,6 +718,26 @@ export default function App() {
             </section>
           )}
           {page === "share" && <ShareStory />}
+          {[
+            "emergency",
+            "message-check",
+            "references",
+            "diagnostics",
+            "classroom",
+            "learning-plan",
+          ].includes(page) && (
+            <FeatureRouter
+              page={page as FeaturePage}
+              onNavigate={navigate}
+              onOpenScenario={(id, complete) => {
+                const story = scenarios.find((s) => s.id === id);
+                if (story) {
+                  setActivityCompletion(() => complete);
+                  setActive(story);
+                }
+              }}
+            />
+          )}
           <footer className="footer">
             <span>
               <ShieldCheck size={19} />
@@ -790,7 +789,7 @@ export default function App() {
           </p>
         )}
         <p className="quiet">
-          КиберЩит — учебное приложение для жителей Беларуси. Версия 1.1:{" "}
+          КиберЩит — учебное приложение для жителей Беларуси. Версия 2.0:{" "}
           {scenarios.length} сценариев, без регистрации.
         </p>
         <button className="primary" onClick={() => setSettings(false)}>
@@ -800,8 +799,23 @@ export default function App() {
       {active && (
         <Simulation
           scenario={active}
-          onClose={() => setActive(null)}
-          onComplete={saveResult}
+          returnLabel={
+            page === "learning-plan"
+              ? "К моему плану"
+              : page === "classroom"
+                ? "К занятию"
+                : ["emergency", "message-check"].includes(page)
+                  ? "К инструменту"
+                  : undefined
+          }
+          onClose={() => {
+            setActive(null);
+            setActivityCompletion(undefined);
+          }}
+          onComplete={(s, outcome, details) => {
+            saveResult(s, outcome, details);
+            activityCompletion?.(s, outcome, details);
+          }}
         />
       )}
     </div>
@@ -814,6 +828,7 @@ function Simulation({
   onComplete,
   onNext,
   nextLabel,
+  returnLabel,
 }: {
   scenario: Scenario;
   onClose: () => void;
@@ -824,6 +839,7 @@ function Simulation({
   ) => void;
   onNext?: () => void;
   nextLabel?: string;
+  returnLabel?: string;
 }) {
   const [node, setNode] = useState(s.start);
   const [steps, setSteps] = useState<Step[]>([]);
@@ -958,7 +974,8 @@ function Simulation({
             сохраняется.
           </p>
           <button className="primary" onClick={onClose}>
-            {onNext ? "К маршруту подборки" : "Вернуться к практике"}
+            {returnLabel ??
+              (onNext ? "К маршруту подборки" : "Вернуться к практике")}
           </button>
           <button className="text-button" onClick={() => setStopped(false)}>
             Продолжить эту ситуацию
@@ -1052,7 +1069,7 @@ function Simulation({
               Попробовать другой путь <ArrowRight size={22} />
             </button>
             <button className="secondary" onClick={onClose}>
-              {onNext ? "К маршруту подборки" : "К ситуациям"}
+              {returnLabel ?? (onNext ? "К маршруту подборки" : "К ситуациям")}
             </button>
           </div>
         </div>

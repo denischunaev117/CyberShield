@@ -7,6 +7,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes("/node_modules/qrcode/")) return "qr-code";
           if (id.includes("/node_modules/"))
             return /\/(react|react-dom|scheduler)\//.test(id)
               ? "react-vendor"
