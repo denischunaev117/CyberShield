@@ -54,7 +54,9 @@
 ## Публикация
 
 Публичный адрес: https://denischunaev117.github.io/CyberShield/.
-Состояние текущего выпуска и ссылка на подтверждающий workflow — в DEPLOYMENT.md.
+Версия 2.0.0 (`b5b8172`) опубликована 15 ноября 2026: [успешный workflow](https://github.com/denischunaev117/CyberShield/actions/runs/43694937224). На GitHub повторно прошли lint, все 426 модульных и 340 браузерных проверок, deployment и публичная проверка HTML/JS/CSS и 32 MP3. Длительность — 5 минут 43 секунды.
+
+Подтверждение публичного доступа получено в GitHub Actions: прямой запрос из облачной среды завершился `fetch failed`. Подробнее — DEPLOYMENT.md.
 Локальные тесты сами по себе не подтверждают публикацию. Workflow повторяет lint,
 426 unit и 340 browser проверок, а после deployment проверяет публичные HTML,
 JS/CSS и все 32 MP3 с SHA-256.
