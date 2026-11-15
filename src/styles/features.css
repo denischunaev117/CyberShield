@@ -743,7 +743,43 @@
   flex-basis: 100%;
   max-width: 20rem;
 }
+.scenario-language {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  min-width: 0;
+  max-width: 100%;
+}
+.scenario-language .language-selector > svg {
+  display: none;
+}
+.scenario-language .language-selector select {
+  max-width: 100%;
+}
+.simulation-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.35rem;
+  height: auto;
+  min-height: 3.75rem;
+  padding-block: 0.35rem;
+}
+.simulation-top > span {
+  min-width: 0;
+}
+.simulation-top > .close-button {
+  flex-shrink: 0;
+}
 @media (max-width: 550px) {
+  .simulation-top {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .simulation-top > span {
+    grid-column: 1 / -1;
+  }
+  .scenario-language {
+    justify-content: flex-start;
+  }
   .language-selector select {
     max-width: 7rem;
     font-size: 0.75rem;

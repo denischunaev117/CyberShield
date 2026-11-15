@@ -1,8 +1,29 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { fileURLToPath } from "node:url";
+const localI18nRuntimes = [
+  "@cybershield/i18n/jsx-runtime",
+  "@cybershield/i18n/jsx-dev-runtime",
+];
 export default defineConfig({
-  plugins: [react({ jsxImportSource: "@cybershield/i18n" })],
+  plugins: [
+    react({ jsxImportSource: "@cybershield/i18n" }),
+    {
+      name: "cybershield-shared-locale",
+      configResolved(config) {
+        // React's plugin explicitly includes both JSX runtimes in prebundling;
+        // remove that forced inclusion for our local stateful wrappers.
+        config.optimizeDeps.include = config.optimizeDeps.include?.filter(
+          (id) => !localI18nRuntimes.includes(id),
+        );
+      },
+    },
+  ],
+  // This local JSX runtime must share the app's locale singleton. Prebundling
+  // it as a dependency would embed a separate copy that always starts in RU.
+  optimizeDeps: {
+    exclude: localI18nRuntimes,
+  },
   resolve: {
     alias: {
       "@cybershield/i18n": fileURLToPath(

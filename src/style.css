@@ -766,7 +766,7 @@ h1 {
   display: grid;
   place-items: center;
   background: light-dark(#b8aac8, #231c2b);
-  color: white;
+  color: light-dark(#243627, #eef5e8);
   font-size: 1.25rem;
   border: 0.25rem solid light-dark(#faf7ff, #61527a);
   border-radius: 50%;
@@ -2237,6 +2237,7 @@ dialog::backdrop {
 }
 .voice-label {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.75rem;
@@ -2244,6 +2245,7 @@ dialog::backdrop {
   color: light-dark(#d7e9e1, #add2c1);
 }
 .voice-label > span {
+  white-space: nowrap;
   margin-left: auto;
   font-size: 0.75rem;
   color: light-dark(#b3cfc2, #b1cec0);

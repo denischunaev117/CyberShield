@@ -7,23 +7,6 @@ import beReviewed from "../src/i18n/overrides/be.json";
 import audio from "../src/i18n/overrides/audio.json";
 import { scenarios } from "../src/content/scenarios";
 
-const completeStories = [
-  "friend-account",
-  "friend-real",
-  "parcel-sms",
-  "call-bank",
-  "call-mobile",
-  "call-parcel-real",
-  "call-family-real",
-  "tg-vote",
-  "tg-tasks",
-  "tg-director",
-  "tg-charity-real",
-  "wa-buyer",
-  "wa-rental",
-  "wa-return",
-  "wa-friend-real",
-];
 function visibleStrings(value: unknown): string[] {
   if (typeof value === "string")
     return /[а-яёА-ЯЁ]/.test(value) ? [value.replace(/\s+/g, " ").trim()] : [];
@@ -36,9 +19,9 @@ for (const [locale, catalog, reviewed] of [
   ["en", en, enReviewed],
   ["be", be, beReviewed],
 ] as const) {
-  test(`${locale}: every branch, choice, ending and lesson of the first 15 stories is translated`, () => {
-    const selected = scenarios.filter((s) => completeStories.includes(s.id));
-    assert.equal(selected.length, completeStories.length);
+  test(`${locale}: every branch, choice, ending and lesson of all 100 stories is translated`, () => {
+    const selected = scenarios;
+    assert.equal(selected.length, 100);
     const messages: Record<string, string> = catalog.messages;
     for (const story of selected)
       for (const source of visibleStrings(story))

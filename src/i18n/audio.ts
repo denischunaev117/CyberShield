@@ -4,5 +4,5 @@ export function localizedAudio(
   locale: Locale = currentLocale(),
 ): string {
   if (locale === "ru") return path;
-  return path.replace(/^audio\//, `audio/${locale}/`);
+  return path.replace(/^(\/?audio)\//, `$1/${locale}/`);
 }

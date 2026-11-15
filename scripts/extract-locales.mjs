@@ -54,6 +54,15 @@ function walk(dir) {
   }
 }
 walk("src");
+// Initials and composed UI labels are not always complete literals in JSX.
+// Keep their explicit source inventory without removing reviewed translations.
+for (const text of JSON.parse(
+  fs.readFileSync("src/i18n/dynamic-messages.json", "utf8"),
+)) {
+  const key = clean(text);
+  messages[key] = key;
+  (locations[key] ??= []).push("src/i18n/dynamic-messages.json");
+}
 fs.writeFileSync(
   "src/i18n/catalogs/ru.json",
   JSON.stringify(

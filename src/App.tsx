@@ -470,7 +470,7 @@ export default function App() {
                         <div className="channel-badge">
                           <ChannelIcon channel={s.channel} />
                           {scenarioChannels(s)
-                            .map((c) => channelNames[c])
+                            .map((c) => translateText(channelNames[c]))
                             .join(" → ")}
                         </div>
                         <div className="scene-visual">
@@ -908,6 +908,9 @@ function Simulation({
           <ShieldCheck size={22} />
           Учебная симуляция
         </span>
+        <div className="scenario-language">
+          <LanguageSelector id="scenario-language" />
+        </div>
         <button
           className="close-button"
           aria-label="Закрыть сценарий"

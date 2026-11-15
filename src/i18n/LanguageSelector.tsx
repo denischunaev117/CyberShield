@@ -1,7 +1,11 @@
 import { useState, useSyncExternalStore } from "react";
 import { Languages } from "lucide-react";
 import { currentLocale, setLocale, subscribeLocale, type Locale } from "./core";
-export default function LanguageSelector() {
+export default function LanguageSelector({
+  id = "app-language",
+}: {
+  id?: string;
+}) {
   const locale = useSyncExternalStore(
     subscribeLocale,
     currentLocale,
@@ -12,9 +16,9 @@ export default function LanguageSelector() {
   return (
     <div className="language-selector">
       <Languages size={21} />
-      <label htmlFor="app-language">Язык</label>
+      <label htmlFor={id}>Язык</label>
       <select
-        id="app-language"
+        id={id}
         aria-label="Язык приложения"
         value={locale}
         disabled={busy}

@@ -9,6 +9,7 @@ import { localizedProps } from "../src/i18n/jsx-runtime";
 import { localizedAudio } from "../src/i18n/audio";
 import { lessonPublicUrl } from "../src/features/classroom/engine";
 import { classroomLessons } from "../src/content/classroom-lessons";
+import { scenarios } from "../src/content/scenarios";
 const data = {
   messages: { Практика: "Practice", Назад: "Back" },
   templates: { "Пройдено {0} из {1}": "Completed {0} of {1}" },
@@ -74,4 +75,17 @@ test("localized audio uses explicit corresponding files; lesson links carry only
   const u = new URL(lessonPublicUrl(classroomLessons[0].id, "be"));
   assert.deepEqual([...u.searchParams.keys()], ["lesson", "lang"]);
   assert.equal(u.searchParams.get("lang"), "be");
+});
+test("all actual scenario audio paths select the requested language, including leading slashes", () => {
+  for (const locale of ["en", "be"] as const)
+    for (const scenario of scenarios)
+      for (const scene of Object.values(scenario.nodes)) {
+        if (!scene.audio) continue;
+        const file = scene.audio.split("/").pop();
+        assert.equal(
+          localizedAudio(scene.audio, locale),
+          `/audio/${locale}/${file}`,
+        );
+        assert.equal(localizedAudio(scene.audio, "ru"), scene.audio);
+      }
 });

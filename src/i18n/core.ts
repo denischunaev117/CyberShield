@@ -58,10 +58,8 @@ export async function setLocale(next: Locale) {
     next === "ru"
       ? { messages: {}, templates: {} }
       : next === "en"
-        ? (await import("./catalogs/en.json", { with: { type: "json" } }))
-            .default
-        : (await import("./catalogs/be.json", { with: { type: "json" } }))
-            .default;
+        ? (await import("./catalogs/en.json")).default
+        : (await import("./catalogs/be.json")).default;
   if (revision !== request) return;
   if (
     next !== "ru" &&
@@ -78,6 +76,26 @@ export async function setLocale(next: Locale) {
   if (typeof document !== "undefined") {
     document.documentElement.lang = next;
     document.title = translateText("КиберЩит — практика безопасных решений");
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        translateText(
+          "КиберЩит — практика безопасных решений для жителей Беларуси.",
+        ),
+      );
+    try {
+      const url = new URL(location.href);
+      if (
+        url.searchParams.has("lang") &&
+        url.searchParams.get("lang") !== next
+      ) {
+        url.searchParams.set("lang", next);
+        history.replaceState(history.state, "", url);
+      }
+    } catch {
+      /* The stored language still works if the host disallows URL updates. */
+    }
   }
   try {
     localStorage.setItem(localeKey, next);
