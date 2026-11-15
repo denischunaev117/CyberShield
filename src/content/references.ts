@@ -1,115 +1,107 @@
+import { sourceArchive } from "./source-materials";
 export type Reference = {
   id: string;
   title: string;
   organization: string;
   url: string;
-  status: "checked" | "pending";
+  status: "checked" | "provided" | "pending";
+  materialIds?: string[];
   checkedAt?: string;
   attemptedAt?: string;
   topicIds: string[];
   note: string;
 };
-const attemptedAt = "2026-11-15";
-const pending = (
+const provided = (
   id: string,
   title: string,
   organization: string,
   url: string,
   topicIds: string[],
+  note: string,
 ): Reference => ({
   id,
   title,
   organization,
   url,
-  status: "pending",
-  attemptedAt,
   topicIds,
-  note: "Доступ из среды разработки отклонён сетевым прокси. Содержимое и актуальность этой страницы не подтверждены; запись ожидает внешней проверки. Номер службы отсюда не извлекался.",
+  note,
+  status: "provided",
+  materialIds: sourceArchive.materials
+    .filter((m) => m.referenceId === id)
+    .map((m) => m.id),
 });
 export const references: Reference[] = [
-  pending(
+  provided(
     "nbrb",
-    "Официальный ресурс Национального банка",
+    "Схемы финансового мошенничества",
     "Национальный банк Республики Беларусь",
     "https://www.nbrb.by/",
     ["payment", "credentials"],
+    "Передана копия материала портала финансовой грамотности: обман при покупках, беда с близкими, опросы, давление и просьбы сообщить данные. Эти признаки требуют проверки, но не устанавливают личность отправителя.",
   ),
-  pending(
+  provided(
     "mvd",
-    "Официальный ресурс МВД",
+    "Профилактика киберпреступлений",
     "МВД Республики Беларусь",
     "https://mvd.gov.by/",
-    ["payment", "unknown", "suspicious-contact"],
+    ["unknown", "suspicious-contact", "payment"],
+    "Использованы переданные материалы профилактики и памятки: защита банковских секретов, фишинг, посредники, поддельные поручения, безопасность детей и учётных записей. Не являются подтверждением конкретного дела или одобрением КиберЩита.",
   ),
-  pending(
-    "belpost",
-    "Официальный ресурс почтовой службы",
-    "Белпочта",
-    "https://belpost.by/",
-    ["suspicious-contact", "phishing-site"],
-  ),
-  pending(
+  provided(
     "belarusbank",
-    "Официальный ресурс банка",
+    "Безопасность карточек и дистанционного обслуживания",
     "Беларусбанк",
     "https://belarusbank.by/",
-    ["payment", "credentials"],
+    ["payment", "credentials", "device"],
+    "По переданным правилам и памяткам: защита реквизитов и кодов, независимое обращение в банк, опасность удалённого доступа, психологическое давление и действия при инциденте. Корпоративные процедуры не переносятся автоматически на частного клиента.",
   ),
-  pending(
+  provided(
     "belinvestbank",
-    "Официальный ресурс банка",
+    "Выманивание кодов и актуальные схемы обмана",
     "Белинвестбанк",
     "https://www.belinvestbank.by/",
-    ["payment", "credentials"],
+    ["credentials", "payment", "phishing-site"],
+    "По переданным материалам: подмена знакомого, просьбы назвать код или цифры звонка, поддельные формы, защитные переводы и доступ к устройству. Полный набор реквизитов и секреты нельзя передавать по просьбе собеседника.",
   ),
-  pending(
+  provided(
     "priorbank",
-    "Официальный ресурс банка",
+    "Защита от мошенничества в повседневных ситуациях",
     "Приорбанк",
     "https://www.priorbank.by/",
-    ["payment"],
+    ["credentials", "payment", "account-takeover"],
+    "Переданные материалы о займах знакомым, покупках, посылках, опросах, работе, кредитах, инвестициях и поддельном входе в банк. Настоящую просьбу следует проверять независимо; для получения выплаты не нужны чужие подтверждения платежей.",
   ),
-  pending(
+  provided(
     "alfabank",
-    "Официальный ресурс банка",
+    "Разбор схем: от просьбы друга до поддельного директора",
     "Альфа Банк Беларусь",
     "https://www.alfabank.by/",
-    ["payment"],
+    ["payment", "device", "suspicious-contact"],
+    "По переданным статьям: займы со взломанных аккаунтов, предоплата, лжепокупатели, QR-коды, приложения и NFC, декларирование, инвестиции, подарки, выплаты и поручения бухгалтеру. Знакомый голос, логотип или вид оплаты не гарантируют подлинность.",
   ),
-  pending(
+  provided(
     "tax",
-    "Официальный ресурс налоговой службы",
+    "Противодействие киберпреступлениям",
     "Министерство по налогам и сборам",
     "https://nalog.gov.by/",
-    ["suspicious-contact"],
+    ["payment", "credentials", "suspicious-contact"],
+    "В переданном материале разобраны ложные кредиты и декларирование, продление договоров, давление, лжеинвестиции и участие в чужих переводах. Для уточнения обращайтесь через привычный официальный канал, не передавайте коды по входящей инструкции.",
   ),
-  pending(
-    "nces",
-    "Официальный ресурс центра электронных услуг",
-    "НЦЭУ",
-    "https://nces.by/",
-    ["phishing-site", "credentials"],
-  ),
-  pending(
-    "epasluga",
-    "Портал электронных услуг",
-    "Е-Паслуга",
-    "https://e-pasluga.by/",
-    ["phishing-site"],
-  ),
-  pending(
+  provided(
     "telegram",
-    "FAQ и защита аккаунта",
+    "Коды входа и защита аккаунта",
     "Telegram",
     "https://telegram.org/faq",
-    ["account-takeover", "credentials"],
+    ["credentials", "account-takeover"],
+    "Из переданной копии FAQ использованы разделы о кодах входа, двухэтапной проверке и завершении чужих сеансов. Коды входа Telegram не передаются другим людям или сервисам. Общие функции мессенджера не являются гарантией честности собеседника.",
   ),
-  pending(
+  provided(
     "apple",
-    "Материалы поддержки о социальной инженерии",
+    "Социальная инженерия и безопасность учётной записи",
     "Apple Support",
     "https://support.apple.com/102568",
-    ["device", "phishing-site"],
+    ["device", "phishing-site", "account-takeover"],
+    "По переданным материалам поддержки: поддельные сообщения и звонки, неожиданные запросы секретов, неизвестные вложения и защита учётной записи. Пароли и коды нельзя сообщать собеседнику; проверку начинают через самостоятельно открытые настройки или поддержку.",
   ),
   ...[
     ["contrast-minimum", "20", "Контраст текста"],
@@ -142,7 +134,8 @@ export const guideReferenceIds = ["nbrb", "mvd", "telegram", "apple"];
 export const reviewFor = (
   contentId: string,
   referenceIds: string[] = guideReferenceIds,
-): ContentReview => ({ contentId, revision: 1, status: "draft", referenceIds });
+  revision = 1,
+): ContentReview => ({ contentId, revision, status: "draft", referenceIds });
 export function validateReferences() {
   if (new Set(references.map((r) => r.id)).size !== references.length)
     throw Error("Повтор источника");
@@ -150,6 +143,17 @@ export function validateReferences() {
     const u = new URL(r.url);
     if (u.protocol !== "https:" || u.username || u.password)
       throw Error("Недопустимая ссылка");
+    if (
+      r.status === "provided" &&
+      (!r.materialIds?.length ||
+        r.materialIds.some(
+          (id) =>
+            !sourceArchive.materials.some(
+              (m) => m.id === id && m.referenceId === r.id,
+            ),
+        ))
+    )
+      throw Error("Нет переданного материала источника");
     if (r.status === "checked" && !r.checkedAt)
       throw Error("Нет даты проверки");
     for (const d of [r.checkedAt, r.attemptedAt].filter(Boolean) as string[])

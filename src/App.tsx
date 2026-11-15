@@ -789,7 +789,7 @@ export default function App() {
           </p>
         )}
         <p className="quiet">
-          КиберЩит — учебное приложение для жителей Беларуси. Версия 2.0:{" "}
+          КиберЩит — учебное приложение для жителей Беларуси. Версия 2.1:{" "}
           {scenarios.length} сценариев, без регистрации.
         </p>
         <button className="primary" onClick={() => setSettings(false)}>

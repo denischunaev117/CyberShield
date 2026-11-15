@@ -1,7 +1,12 @@
-import { useState } from "react";
-import { Search, Trash2 } from "lucide-react";
-import { analyzeMessage, relatedByRule, type RiskAnalysis } from "./analyze";
-import { riskRules } from "./rules";
+import { useEffect, useRef, useState } from "react";
+import { Search, Trash2, TriangleAlert } from "lucide-react";
+import {
+  analyzeMessage,
+  relatedByRule,
+  riskCombinations,
+  type RiskAnalysis,
+} from "./analyze";
+import { riskRules, ruleExcerpt } from "./rules";
 import { FeatureFrame, ScenarioLinks } from "../shared";
 import type { FeatureProps } from "../types";
 import { SourceStatus } from "../references/SourceStatus";
@@ -12,6 +17,14 @@ export default function MessageCheckPage({
   const [text, setText] = useState("");
   const [result, setResult] = useState<RiskAnalysis | null>(null);
   const [error, setError] = useState("");
+  const resultHeading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (!result) return;
+    resultHeading.current?.focus({ preventScroll: true });
+    resultHeading.current
+      ?.closest(".analysis-result")
+      ?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, [result]);
   const clear = () => {
     setText("");
     setResult(null);
@@ -26,7 +39,7 @@ export default function MessageCheckPage({
   return (
     <FeatureFrame
       title="Проверить сообщение"
-      description="Локально находим объяснимые признаки социальной инженерии. Это проверка текста, а не определение личности отправителя или юридического статуса события."
+      description="Проверяем прямые просьбы и косвенные сигналы: деньги «до завтра», цифры звонка, поддельные выплаты, вход по QR и давление. Текст остаётся на вашем устройстве."
       onNavigate={onNavigate}
     >
       <aside className="privacy-notice">
@@ -74,6 +87,7 @@ export default function MessageCheckPage({
           }}
           aria-invalid={Boolean(error)}
           aria-describedby="message-help"
+          placeholder="Например: «Привет, выручишь до завтра? Не звони, я на совещании»"
         />
         <p id="message-help">
           {text.length} / 3000 символов. Ссылки не открываются, сайты не
@@ -96,31 +110,65 @@ export default function MessageCheckPage({
         </div>
       </form>
       {result && (
-        <section className="analysis-result" aria-label="Результат анализа">
-          <h2 tabIndex={-1} ref={(e) => e?.focus()}>
-            {result.level === "high"
-              ? "Обнаружены признаки риска"
-              : result.level === "attention"
-                ? "Нужна дополнительная проверка"
-                : "Типовые признаки не найдены — это не подтверждает безопасность"}
-          </h2>
+        <section
+          className={`analysis-result analysis-${result.level}`}
+          aria-label="Результат анализа"
+        >
+          <div className="analysis-summary">
+            <TriangleAlert size={32} aria-hidden="true" />
+            <h2 tabIndex={-1} ref={resultHeading}>
+              {result.level === "high"
+                ? "Обнаружены признаки риска"
+                : result.level === "attention"
+                  ? "Есть настораживающие признаки"
+                  : "Типовые признаки не найдены — это не подтверждает безопасность"}
+            </h2>
+            <p>
+              {result.level === "none"
+                ? "Не считайте сообщение проверенным. Если от вас ждут действия, независимо проверьте отправителя и его просьбу."
+                : "Сделайте паузу. Не переводите деньги, не раскрывайте секреты и не выполняйте инструкции до независимой проверки."}
+            </p>
+          </div>
           <p role="status">
             Найдено признаков: {found.length}. Анализ не доказывает ни
             безопасность сообщения, ни мошеннический характер обращения.
             Возможны пропуски и ложные срабатывания.
           </p>
+          {result.combinationIds.length > 0 && (
+            <div className="feature-panel analysis-combinations">
+              <h3>Особенно опасное сочетание</h3>
+              <ul>
+                {riskCombinations
+                  .filter((c) => result.combinationIds.includes(c.id))
+                  .map((c) => (
+                    <li key={c.id}>{c.title}</li>
+                  ))}
+              </ul>
+              <p>
+                Несколько признаков усиливают повод остановиться. Это не процент
+                вероятности и не доказательство обмана.
+              </p>
+            </div>
+          )}
           {found.length > 0 ? (
             <div className="reference-list">
               {found.map((r) => (
-                <article className="feature-panel" key={r.id}>
+                <article
+                  className={`feature-panel analysis-signal signal-${r.severity}`}
+                  key={r.id}
+                >
                   <span className="status-chip">
                     {r.severity === "high"
-                      ? "Высокое внимание"
+                      ? "Опасный признак"
                       : r.severity === "medium"
-                        ? "Повышенное внимание"
-                        : "Нужен контекст"}
+                        ? "Настораживающий признак"
+                        : "Косвенный сигнал — проверьте контекст"}
                   </span>
                   <h3>{r.category}</h3>
+                  <blockquote className="analysis-excerpt">
+                    <span>Фрагмент сообщения</span>
+                    <p>{ruleExcerpt(text, r)}</p>
+                  </blockquote>
                   <p>{r.reason}</p>
                   <p>
                     <b>Что сделать безопасно: </b>
@@ -158,6 +206,7 @@ export default function MessageCheckPage({
             помощи. Текст сообщения туда не переносится.
           </p>
           <SourceStatus
+            revision={2}
             ids={
               [...new Set(found.flatMap((r) => r.sourceIds))].slice(0, 4).length
                 ? [...new Set(found.flatMap((r) => r.sourceIds))].slice(0, 4)

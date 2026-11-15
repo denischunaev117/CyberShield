@@ -7,7 +7,7 @@ export const contentReviews: ContentReview[] = [
   ...Object.values(incidentGuides).map((g) =>
     reviewFor(`guide:${g.id}`, g.sourceIds),
   ),
-  ...riskRules.map((r) => reviewFor(`rule:${r.id}`, r.sourceIds)),
+  ...riskRules.map((r) => reviewFor(`rule:${r.id}`, r.sourceIds, r.version)),
 ];
 export function validateContentReviews(rows = contentReviews) {
   if (new Set(rows.map((r) => r.contentId)).size !== rows.length)

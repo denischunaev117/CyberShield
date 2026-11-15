@@ -1,5 +1,7 @@
 import { riskRules } from "./rules";
+import { normalizeMessage } from "./normalize";
 export function sensitiveMessageProblem(text: string): string | null {
+  text = normalizeMessage(text);
   if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text))
     return "Удалите адрес электронной почты.";
   if (
@@ -23,24 +25,81 @@ export function sensitiveMessageProblem(text: string): string | null {
   return null;
 }
 export type RiskAnalysis = {
-  revision: 1;
+  revision: 2;
   level: "high" | "attention" | "none";
   ruleIds: string[];
+  combinationIds: string[];
 };
+export const riskCombinations = [
+  {
+    id: "link-and-action",
+    title:
+      "Ссылка вместе с запросом данных, выплатой или тревожным уведомлением",
+    first: ["unverified-link", "qr-action"],
+    second: [
+      "secret-request",
+      "card-details",
+      "identity-documents",
+      "account-alarm",
+      "paid-survey",
+      "compensation-bait",
+      "voting-login",
+    ],
+  },
+  {
+    id: "pressure-and-money",
+    title: "Давление вместе с просьбой о деньгах или доступе",
+    first: ["urgency", "threat", "secrecy"],
+    second: [
+      "friendly-loan",
+      "unexpected-payment",
+      "loan-instruction",
+      "cash-courier",
+      "secret-request",
+      "screen-sharing",
+      "device-control",
+      "prepayment",
+    ],
+  },
+  {
+    id: "authority-and-control",
+    title: "Имя организации вместе с вмешательством в деньги или устройство",
+    first: ["claimed-authority", "fake-manager"],
+    second: [
+      "loan-instruction",
+      "cash-courier",
+      "nfc-card",
+      "screen-sharing",
+      "security-disable",
+      "declaration",
+      "device-control",
+    ],
+  },
+];
 export function analyzeMessage(text: string): RiskAnalysis {
   if (!text.trim()) throw Error("Вставьте обезличенный текст сообщения.");
   if (text.length > 3000) throw Error("Максимум 3000 символов.");
   const problem = sensitiveMessageProblem(text);
   if (problem) throw Error(problem);
   const found = riskRules.filter((r) => r.test(text));
+  const ruleIds = found.map((r) => r.id);
+  const combinationIds = riskCombinations
+    .filter(
+      (c) =>
+        c.first.some((id) => ruleIds.includes(id)) &&
+        c.second.some((id) => ruleIds.includes(id)),
+    )
+    .map((c) => c.id);
   return {
-    revision: 1,
-    level: found.some((r) => r.severity === "high")
-      ? "high"
-      : found.length
-        ? "attention"
-        : "none",
-    ruleIds: found.map((r) => r.id),
+    revision: 2,
+    level:
+      found.some((r) => r.severity === "high") || combinationIds.length > 0
+        ? "high"
+        : found.length
+          ? "attention"
+          : "none",
+    ruleIds,
+    combinationIds,
   };
 }
 export const relatedByRule: Record<string, string[]> = {

@@ -1,10 +1,17 @@
 import { references } from "../../content/references";
-export function SourceStatus({ ids }: { ids: string[] }) {
+export function SourceStatus({
+  ids,
+  revision = 1,
+}: {
+  ids: string[];
+  revision?: number;
+}) {
   return (
     <aside className="source-status">
       <b>Рекомендации требуют независимой проверки</b>
       <p>
-        Редакция 1. Экспертное заключение не получено. Остановка общения сама по
+        Редакция {revision}. Использованы переданные материалы и учебные
+        правила; экспертное заключение не получено. Остановка общения сама по
         себе не отменяет уже возникшие последствия.
       </p>
       <ul>
@@ -12,14 +19,7 @@ export function SourceStatus({ ids }: { ids: string[] }) {
           const r = references.find((r) => r.id === id);
           return r ? (
             <li key={id}>
-              {r.organization}:{" "}
-              {r.status === "checked" ? (
-                <a href={r.url} target="_blank" rel="noopener noreferrer">
-                  {r.title}
-                </a>
-              ) : (
-                "внешняя проверка ожидается"
-              )}
+              <b>{r.organization}</b> — {r.title}
             </li>
           ) : null;
         })}

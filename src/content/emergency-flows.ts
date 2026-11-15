@@ -166,7 +166,7 @@ export const incidentGuides: Record<string, IncidentGuide> = {
       "Если окажется, что действие уже выполнено, начните помощник заново и выберите соответствующую ветку.",
     ],
     ["friend-account", "call-mobile"],
-    ["mvd", "belpost"],
+    ["mvd", "priorbank"],
   ),
   "bank-access": guide(
     "bank-access",
@@ -313,7 +313,7 @@ export const incidentGuides: Record<string, IncidentGuide> = {
       "Проверьте уведомления и загрузки без запуска незнакомых файлов. При сомнениях используйте официальную поддержку устройства.",
     ],
     ["parking-qr", "tax-letter-link"],
-    ["apple", "nces"],
+    ["apple", "priorbank"],
   ),
   "account-confirmed": guide(
     "account-confirmed",

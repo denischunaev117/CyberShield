@@ -281,6 +281,57 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
   gap: 1rem;
 }
+.analysis-summary {
+  border: 2px solid var(--warning);
+  background: var(--warning-surface);
+  color: var(--warning);
+  padding: 1.2rem;
+  border-radius: 0.9rem;
+  margin-bottom: 1rem;
+}
+.analysis-summary h2 {
+  color: inherit;
+  margin-top: 0.6rem;
+}
+.analysis-high .analysis-summary,
+.analysis-combinations {
+  border-color: var(--danger);
+  background: var(--danger-surface);
+  color: var(--danger);
+}
+.analysis-signal {
+  border-inline-start: 4px solid var(--warning);
+}
+.analysis-signal.signal-high {
+  border-inline-start-color: var(--danger);
+}
+.analysis-signal.signal-high .status-chip {
+  color: var(--danger);
+  border-color: var(--danger);
+  font-weight: 800;
+}
+.analysis-excerpt {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: var(--surface-soft);
+  border: 1px solid var(--border-strong);
+  border-radius: 0.5rem;
+  overflow-wrap: anywhere;
+}
+.analysis-excerpt > span {
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+.analysis-excerpt p {
+  margin: 0.5rem 0 0;
+  white-space: pre-wrap;
+}
+.low-vision .analysis-summary,
+.low-vision .analysis-combinations {
+  color: var(--lv-text);
+  background: var(--lv-bg);
+  border-color: currentColor;
+}
 .reference-list .feature-panel {
   margin: 0;
 }

@@ -76,7 +76,7 @@ for (const r of riskRules)
     assert.ok(r.examples.some((e) => r.test(e)));
     assert.ok(skills.some((s) => s.id === r.skillId));
     assert.ok(r.sourceIds.every((id) => references.some((s) => s.id === id)));
-    assert.ok(r.reason && r.advice && r.version === 1);
+    assert.ok(r.reason && r.advice && r.version === 2);
   });
 test("analysis is deterministic and only returns rule IDs, not the submitted text", () => {
   const text =
