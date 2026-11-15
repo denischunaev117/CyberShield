@@ -10,7 +10,7 @@ export function sensitiveMessageProblem(text: string): string | null {
   )
     return "Удалите похожий на телефон, реквизиты или документ номер.";
   if (
-    /(?:код|парол[ьяь]|cvv|cvc|пин)\s*(?:из SMS\s*)?[:=—-]?\s*\d{3,}/i.test(
+    /(?:код|парол[ьяь]|password|passcode|code|otp|cvv|cvc|pin|пін|пин)\s*(?:из SMS\s*)?[:=—-]?\s*\d{3,}/i.test(
       text,
     )
   )

@@ -1,3 +1,4 @@
+import { translateText } from "./i18n/core";
 export const storyRecipient = "chunaevdenis@gmail.com";
 export const storyEndpoint = `https://formsubmit.co/ajax/${storyRecipient}`;
 export function storyProblem(text: string): string | null {
@@ -11,9 +12,13 @@ export function storyProblem(text: string): string | null {
     /\b[A-ZА-Я]{2}\s?\d{7}\b/i.test(text)
   )
     return "В тексте похожий на телефон, реквизиты или номер документа фрагмент. Удалите эти данные.";
-  if (/(?:https?:\/\/|www\.|t\.me\/|@[\wа-я])/i.test(text))
+  if (/(?:https?:\/\/|www\.|t\.me\/|@[\wа-яёіў])/i.test(text))
     return "Удалите ссылки и имена аккаунтов. Достаточно названия сервиса: например, Telegram или Белпочта.";
-  if (/(?:код|парол[ьяь]|cvc|cvv|пин)\s*[:=—-]?\s*\d{3,}/i.test(text))
+  if (
+    /(?:код|парол[ьяь]|password|passcode|code|otp|cvc|cvv|pin|пін|пин)\s*[:=—-]?\s*\d{3,}/i.test(
+      text,
+    )
+  )
     return "Удалите код или пароль. Напишите просто «код из SMS» или «пароль».";
   return null;
 }
@@ -30,12 +35,12 @@ export async function submitStory(
     signal,
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({
-      _subject: "История для сценария КиберЩита",
+      _subject: translateText("История для сценария КиберЩита"),
       _template: "table",
       _honey: honey,
       _url: `${window.location.origin}${window.location.pathname}`,
-      История: story.trim(),
-      "Канал обращения": channel,
+      [translateText("История")]: story.trim(),
+      [translateText("Канал обращения")]: translateText(channel),
     }),
   });
   if (!response.ok)

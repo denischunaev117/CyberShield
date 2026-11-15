@@ -130,7 +130,7 @@ export default function ShareStory() {
               </p>
               <div className="story-preview">
                 <FileText size={23} />
-                <p>{story}</p>
+                <p data-i18n="off">{story}</p>
               </div>
               <label className="story-consent">
                 <input

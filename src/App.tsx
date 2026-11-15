@@ -1,3 +1,7 @@
+import { translateText } from "./i18n/core";
+import LanguageSelector from "./i18n/LanguageSelector";
+import { currentLocale, subscribeLocale, intlLocale } from "./i18n/core";
+import { useSyncExternalStore } from "react";
 import { recordLearningStat } from "./platform/learning-stats";
 import Navigation from "./components/Navigation";
 import FeatureRouter, { warmLocalTools } from "./features/FeatureRouter";
@@ -151,6 +155,7 @@ function PhoneArt() {
 }
 
 export default function App() {
+  useSyncExternalStore(subscribeLocale, currentLocale, currentLocale);
   const [page, setPage] = useState<PageId>(() =>
     new URLSearchParams(location.search).has("lesson")
       ? "classroom"
@@ -199,9 +204,11 @@ export default function App() {
       (!onlyBelarus || s.source?.document === "belarus-2026") &&
       (topic === "Все ситуации" || topic === s.topic) &&
       (channel === "all" || scenarioChannels(s).some((c) => c === channel)) &&
-      `${s.title} ${s.description} ${s.topic}`
-        .toLowerCase()
-        .includes(query.toLowerCase()),
+      [s.title, s.description, s.topic]
+        .flatMap((text) => [text, translateText(text)])
+        .join(" ")
+        .toLocaleLowerCase(intlLocale())
+        .includes(query.toLocaleLowerCase(intlLocale())),
   );
   function navigate(next: PageId) {
     setPage(next);
@@ -248,6 +255,7 @@ export default function App() {
             <span>{pageNames[page]}</span>
           </div>
           <div className="header-right">
+            <LanguageSelector />
             <button
               className="theme-toggle"
               role="switch"
@@ -694,7 +702,9 @@ export default function App() {
                       <div>
                         <b>{scenarios.find((s) => s.id === p.id)?.title}</b>
                         <small>
-                          {new Date(p.completedAt).toLocaleDateString("ru-BY")}{" "}
+                          {new Date(p.completedAt).toLocaleDateString(
+                            intlLocale(),
+                          )}{" "}
                           ·{" "}
                           {p.outcome === "safe"
                             ? "Безопасное решение"
@@ -721,6 +731,7 @@ export default function App() {
           {[
             "emergency",
             "message-check",
+            "link-check",
             "references",
             "diagnostics",
             "classroom",

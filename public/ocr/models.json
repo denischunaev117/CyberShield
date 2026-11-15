@@ -1,0 +1,26 @@
+{
+  "license": "Apache-2.0",
+  "models": [
+    {
+      "language": "eng",
+      "bytes": 4113088,
+      "sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "compressedSha256": "f1c22599ed6fd3eb821d87fdb43e09f98b61179a4abe38c43cfca2cdcb9f5ec2",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/eng.traineddata"
+    },
+    {
+      "language": "rus",
+      "bytes": 3861738,
+      "sha256": "e16e5e036cce1d9ec2b00063cf8b54472625b9e14d893a169e2b0dedeb4df225",
+      "compressedSha256": "5693b2a0efe21b66d3d8e74c53fcfb1f836e0a0169373633facc617479164df5",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/rus.traineddata"
+    },
+    {
+      "language": "bel",
+      "bytes": 3692098,
+      "sha256": "9c6668a0b202f3dcfe074b64620d108e1902ca7498a40b5a11b4a3da6112d58f",
+      "compressedSha256": "ebc62468f074c67ebfdd42a247c94062067cc4b7151ba22b58a1962ac6dbf106",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/bel.traineddata"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import type { CompletionDetails, Outcome } from "../collection-engine";
 export type FeaturePage =
   | "emergency"
   | "message-check"
+  | "link-check"
   | "diagnostics"
   | "classroom"
   | "learning-plan"
@@ -26,6 +27,7 @@ export const pageNames: Record<PageId, string> = {
   share: "Ваша история",
   emergency: "Мне нужна помощь",
   "message-check": "Проверить сообщение",
+  "link-check": "Проверить ссылку или QR-код",
   diagnostics: "Диагностика",
   classroom: "Для занятий",
   "learning-plan": "Мой план",

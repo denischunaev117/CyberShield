@@ -1,3 +1,4 @@
+import { localizedAudio } from "../i18n/audio";
 import { publicAsset } from "../platform/assets";
 import { EvidenceCard } from "./EvidenceCard";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +14,7 @@ export function CallScene({
   steps: Step[];
 }) {
   const audio = useRef<HTMLAudioElement>(null);
+  const audioPath = scene.audio ? localizedAudio(scene.audio) : undefined;
   const [failed, setFailed] = useState(false);
   const [playing, setPlaying] = useState(false);
   useEffect(() => {
@@ -26,6 +28,12 @@ export function CallScene({
       element?.pause();
     };
   }, []);
+  useEffect(() => {
+    setPlaying(false);
+    setFailed(false);
+    audio.current?.pause();
+    audio.current?.load();
+  }, [audioPath]);
   return (
     <div className="call-scene" aria-live="polite">
       <div className="call-identity">
@@ -72,7 +80,7 @@ export function CallScene({
             ref={audio}
             controls
             preload="metadata"
-            src={publicAsset(scene.audio)}
+            src={publicAsset(audioPath!)}
             aria-label="Озвучка реплики"
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}

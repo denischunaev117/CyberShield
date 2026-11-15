@@ -1,0 +1,5 @@
+Local optical character recognition uses Tesseract.js 7 and Tesseract.js-core 7.
+Language models (eng, rus, bel): tesseract-ocr/tessdata_fast, Apache License 2.0.
+Source locations and SHA-256 checksums are recorded in models.json.
+Runtime files are copied from locked npm dependencies by scripts/prepare-ocr.mjs.
+This directory contains software and model assets, not user images or messages.

@@ -14,6 +14,7 @@ import {
   Users,
   X,
   Library,
+  ScanLine,
 } from "lucide-react";
 import { pageNames, type PageId } from "../features/types";
 const groups: {
@@ -34,6 +35,7 @@ const groups: {
     title: "Защита сейчас",
     items: [
       { id: "message-check", icon: Search },
+      { id: "link-check", icon: ScanLine },
       { id: "emergency", icon: LifeBuoy },
     ],
   },

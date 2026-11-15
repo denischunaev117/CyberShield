@@ -22,6 +22,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci --no-audit --no-fund
+      - run: npm run check:locales
       - run: npm run lint
       - run: npm test
       - run: test -x "$CHROMIUM_PATH"

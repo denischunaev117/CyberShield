@@ -1,3 +1,4 @@
+import { intlLocale } from "../../i18n/core";
 import { useState, useRef, useEffect } from "react";
 import { diagnosticQuestions } from "../../content/diagnostic-questions";
 import { skills, type SkillId } from "../../content/skills";
@@ -17,7 +18,7 @@ import {
 } from "./engine";
 import { FeatureFrame, StorageNotice, exportFile } from "../shared";
 import type { FeatureProps } from "../types";
-const number = (n: number) => Number(n.toFixed(1)).toLocaleString("ru-BY");
+const number = (n: number) => Number(n.toFixed(1)).toLocaleString(intlLocale());
 export default function DiagnosticsPage({ onNavigate }: FeatureProps) {
   const [run, setRun] = useState(() => diagnosticsStore.read().run);
   const [notice, setNotice] = useState(() => diagnosticsStore.isVolatile());

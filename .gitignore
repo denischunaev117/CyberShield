@@ -6,3 +6,8 @@ playwright-report/
 .env
 .env.*
 !.env.example
+
+# Reproducible local OCR runtime copied from locked npm dependencies
+public/ocr/core/
+public/ocr/worker.min.js
+public/ocr/worker.min.js.LICENSE.txt

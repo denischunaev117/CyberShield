@@ -1,3 +1,4 @@
+import { recognizesAdditionalLanguage } from "./multilingual";
 import type { SkillId } from "../../content/skills";
 import { affirmativeRequest, matches, normalizeMessage } from "./normalize";
 export type RiskRule = {
@@ -66,9 +67,11 @@ const rule = (
   version: 2,
   test: (raw) => {
     const text = normalizeMessage(raw);
-    return typeof detector === "function"
-      ? detector(text)
-      : matches(detector, text);
+    return (
+      (typeof detector === "function"
+        ? detector(text)
+        : matches(detector, text)) || recognizesAdditionalLanguage(id, text)
+    );
   },
 });
 export const riskRules: RiskRule[] = [

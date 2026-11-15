@@ -167,7 +167,7 @@ export default function MessageCheckPage({
                   <h3>{r.category}</h3>
                   <blockquote className="analysis-excerpt">
                     <span>Фрагмент сообщения</span>
-                    <p>{ruleExcerpt(text, r)}</p>
+                    <p data-i18n="off">{ruleExcerpt(text, r)}</p>
                   </blockquote>
                   <p>{r.reason}</p>
                   <p>

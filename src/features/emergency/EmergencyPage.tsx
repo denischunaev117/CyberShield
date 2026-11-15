@@ -1,3 +1,4 @@
+import { translateText } from "../../i18n/core";
 import { useState } from "react";
 import { Printer, RotateCcw, ArrowLeft, Copy } from "lucide-react";
 import {
@@ -153,7 +154,9 @@ export default function EmergencyPage({
                           guide.title,
                           guide.intro,
                           ...blocks.flatMap(([t, items]) => [t, ...items]),
-                        ].join("\n"),
+                        ]
+                          .map(translateText)
+                          .join("\n"),
                       );
                       setCopied(
                         "Общие инструкции скопированы. История ответов не включена.",

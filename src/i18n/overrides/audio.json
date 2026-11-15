@@ -1,0 +1,162 @@
+{
+  "call-bank-start.mp3": {
+    "ru": "Здравствуйте. По вашему счёту появилась заявка на кредит. Вы её подавали? Если нет, нужно срочно защитить остаток.",
+    "en": "Hello. A loan application has appeared on your account. Did you submit it? If not, we need to protect your remaining funds urgently.",
+    "be": "Добры дзень. На вашым рахунку з’явілася заяўка на крэдыт. Вы яе падавалі? Калі не, трэба тэрмінова абараніць рэшту сродкаў."
+  },
+  "call-bank-detail.mp3": {
+    "ru": "Оформите перевод на резервный счёт. Пока идёт проверка, нельзя никому рассказывать об операции, иначе деньги не удастся сохранить.",
+    "en": "Transfer the money to a reserve account. While the check is in progress, you must not tell anyone about this operation, or we will be unable to protect your money.",
+    "be": "Перавядзіце грошы на рэзервовы рахунак. Пакуль ідзе праверка, нельга нікому расказваць пра аперацыю, інакш грошы не ўдасца захаваць."
+  },
+  "call-mobile-start.mp3": {
+    "ru": "Добрый день. У вашего договора связи истекает срок. Чтобы номер остался за вами, нужно подтвердить продление сейчас.",
+    "en": "Good afternoon. Your mobile service contract is expiring. To keep your number, you need to confirm the renewal now.",
+    "be": "Добры дзень. Тэрмін вашага дагавора на паслугі сувязі заканчваецца. Каб нумар застаўся за вамі, трэба зараз пацвердзіць падаўжэнне."
+  },
+  "call-mobile-detail.mp3": {
+    "ru": "Вам придёт сообщение. Просто продиктуйте цифры — это техническое подтверждение. Читать весь текст не обязательно.",
+    "en": "You will receive a message. Just read out the digits: it is a technical confirmation. There is no need to read the whole message.",
+    "be": "Вам прыйдзе паведамленне. Проста назавіце лічбы — гэта тэхнічнае пацвярджэнне. Чытаць увесь тэкст не абавязкова."
+  },
+  "call-parcel-real-start.mp3": {
+    "ru": "Здравствуйте. Уточняем удобное время получения вашего отправления. Можно согласовать доставку или выбрать получение в отделении.",
+    "en": "Hello. We are checking a convenient time for you to receive your parcel. We can arrange delivery, or you can choose collection at a branch.",
+    "be": "Добры дзень. Удакладняем зручны час атрымання вашага адпраўлення. Можна ўзгадніць дастаўку або выбраць атрыманне ў аддзяленні."
+  },
+  "call-parcel-real-detail.mp3": {
+    "ru": "Только подходящий день и время. Коды и данные карты не нужны. Если хотите проверить звонок, уточните условия через службу доставки.",
+    "en": "We only need a suitable day and time. No codes or card details are needed. If you would like to verify this call, check the arrangements directly with the delivery service.",
+    "be": "Патрэбныя толькі зручны дзень і час. Коды і даныя карткі не патрэбныя. Калі хочаце праверыць званок, удакладніце ўмовы праз службу дастаўкі."
+  },
+  "call-family-real-start.mp3": {
+    "ru": "Привет. Машина не заводится, я задержался за городом. Можешь забрать меня или помочь найти эвакуатор?",
+    "en": "Hi. The car will not start, and I am stuck outside town. Could you pick me up or help me find a tow truck?",
+    "be": "Прывітанне. Машына не заводзіцца, я затрымаўся за горадам. Можаш забраць мяне або дапамагчы знайсці эвакуатар?"
+  },
+  "call-family-real-detail.mp3": {
+    "ru": "Я на стоянке у магазина, могу прислать место. Денег незнакомым людям переводить не надо. Если удобно, перезвони или свяжись с нашей семьёй.",
+    "en": "I am in the car park by the shop. I can send you my location. There is no need to send money to strangers. If convenient, call me back or get in touch with our family.",
+    "be": "Я на стаянцы каля крамы, магу даслаць месца. Грошы незнаёмым людзям пераводзіць не трэба. Калі зручна, ператэлефануй або звяжыся з нашай сям’ёй."
+  },
+  "call-meter-start.mp3": {
+    "ru": "Здравствуйте. По вашему дому назначаем поверку счётчиков. Вам удобнее утром или вечером? Для включения в график понадобится подтверждение.",
+    "en": "Hello. We are scheduling meter inspections for your building. Would morning or evening suit you better? We will need confirmation to put you on the schedule.",
+    "be": "Добры дзень. У вашым доме прызначаем паверку лічыльнікаў. Вам зручней раніцай ці ўвечары? Каб уключыць вас у графік, спатрэбіцца пацвярджэнне."
+  },
+  "call-meter-detail.mp3": {
+    "ru": "Продиктуйте код из сообщения. Если написано «вход в кабинет», это просто стандартный текст. Иначе вас не включат в график.",
+    "en": "Read out the code from the message. If it says account login, that is just standard wording. Otherwise you will not be added to the schedule.",
+    "be": "Назавіце код з паведамлення. Калі напісана «ўваход у кабінет», гэта проста стандартны тэкст. Інакш вас не ўключаць у графік."
+  },
+  "call-pension-start.mp3": {
+    "ru": "Здравствуйте. Обнаружен неучтённый период вашего стажа. Возможна прибавка к пенсии. Сейчас нужно подтвердить данные, пока список не закрыт.",
+    "en": "Hello. We have found an unrecorded period in your employment history. You may qualify for a pension increase. We need you to confirm your details now, before the list closes.",
+    "be": "Добры дзень. Выяўлены няўлічаны перыяд вашага працоўнага стажу. Магчымая прыбаўка да пенсіі. Зараз трэба пацвердзіць даныя, пакуль спіс не закрыты."
+  },
+  "call-pension-detail.mp3": {
+    "ru": "Нужны реквизиты карты и код из сообщения. Собирать документы не надо. Если отложите, перерасчёт может не попасть в эту выплату.",
+    "en": "We need your card details and the code from the message. There is no need to gather documents. If you delay, the recalculation may not be included in this payment.",
+    "be": "Патрэбныя рэквізіты карткі і код з паведамлення. Збіраць дакументы не трэба. Калі адкладзяце, пераразлік можа не трапіць у гэтую выплату."
+  },
+  "call-clinic-real-start.mp3": {
+    "ru": "Добрый день. По вашей записи освободилось более раннее время приёма. Хотите обсудить перенос? Если сейчас неудобно, можно уточнить самостоятельно.",
+    "en": "Good afternoon. An earlier appointment has become available. Would you like to discuss moving your appointment? If now is inconvenient, you can check independently later.",
+    "be": "Добры дзень. З’явіўся больш ранні час прыёму. Хочаце абмеркаваць перанос вашага запісу? Калі зараз нязручна, можна ўдакладніць самастойна."
+  },
+  "call-clinic-real-detail.mp3": {
+    "ru": "Меняется только время. Коды и карта не нужны. Прежнюю запись пока сохраняем; подтвердить перенос можно через известную вам регистратуру.",
+    "en": "Only the time is changing. No codes or card details are needed. We are keeping your existing appointment for now. You can confirm the change through the reception desk you already know.",
+    "be": "Змяняецца толькі час. Коды і картка не патрэбныя. Ранейшы запіс пакуль захоўваем; пацвердзіць перанос можна праз вядомую вам рэгістратуру."
+  },
+  "call-wonder-cure-start.mp3": {
+    "ru": "Здравствуйте. Вы интересовались нашим средством. Специально для вас есть курс с гарантированным результатом. Скидка действует только сегодня.",
+    "en": "Hello. You expressed an interest in our remedy. We have a treatment course especially for you with guaranteed results. The discount is only available today.",
+    "be": "Добры дзень. Вы цікавіліся нашым сродкам. Адмыслова для вас ёсць курс з гарантаваным вынікам. Зніжка дзейнічае толькі сёння."
+  },
+  "call-wonder-cure-detail.mp3": {
+    "ru": "Обычные назначения вам больше не понадобятся. Оплатите курс частным переводом, а документы и рекомендации получите потом.",
+    "en": "You will no longer need your usual prescribed treatments. Pay for the course by a private transfer, and you will receive the documents and recommendations afterwards.",
+    "be": "Звычайныя прызначэнні вам больш не спатрэбяцца. Аплаціце курс прыватным пераводам, а дакументы і рэкамендацыі атрымаеце потым."
+  },
+  "call-home-service-real-start.mp3": {
+    "ru": "Здравствуйте. По вашей заявке на ремонт нужно согласовать время визита. Мастер сначала осмотрит неисправность и предложит смету.",
+    "en": "Hello. We need to agree a visit time for your repair request. The technician will first inspect the fault and provide an estimate.",
+    "be": "Добры дзень. Па вашай заяўцы на рамонт трэба ўзгадніць час візіту. Майстар спачатку агледзіць няспраўнасць і прапануе каштарыс."
+  },
+  "call-home-service-real-detail.mp3": {
+    "ru": "Осмотр и возможная стоимость указаны в подтверждении заявки. Работы начнутся только после согласования. Банковские коды по телефону не нужны.",
+    "en": "The inspection and any possible charge are described in your booking confirmation. Work will only start after you agree to it. No banking codes are needed over the phone.",
+    "be": "Агляд і магчымы кошт пазначаны ў пацвярджэнні заяўкі. Працы пачнуцца толькі пасля ўзгаднення. Банкаўскія коды па тэлефоне не патрэбныя."
+  },
+  "call-mirror-credit-start.mp3": {
+    "ru": "Здравствуйте. На ваше имя якобы оформляют кредит. Если это не вы, нужно немедленно сделать встречную заявку, чтобы система погасила первую.",
+    "en": "Hello. A loan is apparently being taken out in your name. If it is not you, you must immediately submit a matching application so the system can cancel the first one.",
+    "be": "Добры дзень. На ваша імя нібыта афармляюць крэдыт. Калі гэта не вы, трэба неадкладна падаць сустрэчную заяўку, каб сістэма пагасіла першую."
+  },
+  "call-mirror-credit-detail.mp3": {
+    "ru": "Оформите обычный кредит и получите деньги. Мы потом подскажем, куда их направить. Самому в банк обращаться нельзя, иначе отмена сорвётся.",
+    "en": "Take out an ordinary loan and collect the money. We will then tell you where to send it. You must not contact the bank yourself, or the cancellation will fail.",
+    "be": "Аформіце звычайны крэдыт і атрымайце грошы. Мы потым падкажам, куды іх накіраваць. Самастойна ў банк звяртацца нельга, інакш адмена сарвецца."
+  },
+  "call-cash-inspection-start.mp3": {
+    "ru": "Добрый день. По вашим накоплениям нужна проверка происхождения. Чтобы не задерживать процесс, передайте наличные нашему курьеру, он всё оформит.",
+    "en": "Good afternoon. We need to check the origin of your savings. To avoid delaying the process, hand the cash to our courier. They will complete the paperwork.",
+    "be": "Добры дзень. Трэба праверыць паходжанне вашых зберажэнняў. Каб не затрымліваць працэс, перадайце наяўныя нашаму кур’еру, ён усё аформіць."
+  },
+  "call-cash-inspection-document.mp3": {
+    "ru": "Документ пришлём в мессенджер. Не обсуждайте проверку с близкими и не звоните в учреждение: это нарушит конфиденциальность.",
+    "en": "We will send the document in a messenger. Do not discuss the check with your family or call the organisation: that would breach confidentiality.",
+    "be": "Дакумент дашлём у месенджар. Не абмяркоўвайце праверку з блізкімі і не тэлефануйце ва ўстанову: гэта парушыць канфідэнцыяльнасць."
+  },
+  "call-tax-appointment-real-start.mp3": {
+    "ru": "Здравствуйте. По вашему обращению нужно уточнить удобный способ ответа. Можно обсудить сейчас или самостоятельно связаться по известному вам контакту.",
+    "en": "Hello. Regarding your enquiry, we need to confirm how you would prefer to receive a reply. We can discuss it now, or you can contact us yourself using the details you already know.",
+    "be": "Добры дзень. Па вашым звароце трэба ўдакладніць зручны спосаб адказу. Можна абмеркаваць зараз або самастойна звязацца па вядомым вам кантакце."
+  },
+  "call-tax-appointment-real-detail.mp3": {
+    "ru": "Нужно выбрать время консультации. Коды, доступ к банку и реквизиты карты не требуются. Если есть сомнения, сначала проверьте контакт.",
+    "en": "We only need to choose a consultation time. No codes, banking access or card details are required. If you have any doubts, verify the contact first.",
+    "be": "Трэба выбраць час кансультацыі. Коды, доступ да банка і рэквізіты карткі не патрабуюцца. Калі ёсць сумневы, спачатку праверце кантакт."
+  },
+  "call-secret-operation-start.mp3": {
+    "ru": "Добрый день. Нам нужна помощь в закрытой проверке. С вашего счёта потребуется перевод, но с банком и близкими обсуждать его нельзя.",
+    "en": "Good afternoon. We need your help with a confidential investigation. A transfer from your account will be required, but you must not discuss it with your bank or family.",
+    "be": "Добры дзень. Нам патрэбная дапамога ў закрытай праверцы. З вашага рахунку спатрэбіцца перавод, але абмяркоўваць яго з банкам і блізкімі нельга."
+  },
+  "call-secret-operation-detail.mp3": {
+    "ru": "Переводите на реквизиты из сообщения. Это нужно для проверки сотрудников, поэтому самостоятельный звонок в учреждение сорвёт всю работу.",
+    "en": "Transfer the money using the details in the message. This is necessary to investigate staff, so calling the organisation yourself will ruin the entire operation.",
+    "be": "Пераводзьце грошы па рэквізітах з паведамлення. Гэта трэба для праверкі супрацоўнікаў, таму самастойны званок ва ўстанову сарве ўсю працу."
+  },
+  "call-relative-accident-real-start.mp3": {
+    "ru": "Привет. Небольшая дорожная неприятность, со мной всё нормально. Можешь помочь связаться с семьёй и решить, как добраться домой?",
+    "en": "Hi. There has been a minor road incident, but I am fine. Could you help me contact the family and work out how to get home?",
+    "be": "Прывітанне. Невялікая дарожная непрыемнасць, са мной усё добра. Можаш дапамагчы звязацца з сям’ёй і вырашыць, як дабрацца дадому?"
+  },
+  "call-relative-accident-real-detail.mp3": {
+    "ru": "Пожалуйста, сначала перезвони или свяжись с нашей семьёй. Денег посредникам не надо, нужно согласовать дорогу домой.",
+    "en": "Please call me back first or contact our family. There is no need to pay any intermediary. We just need to arrange how I can get home.",
+    "be": "Калі ласка, спачатку ператэлефануй або звяжыся з нашай сям’ёй. Грошы пасярэднікам не патрэбныя, трэба ўзгадніць дарогу дадому."
+  },
+  "call-import-compensation-start.mp3": {
+    "ru": "Здравствуйте. Вам якобы одобрена компенсация за покупки. Чтобы перечислить деньги, нужно сегодня оплатить небольшой регистрационный сбор.",
+    "en": "Hello. Compensation for your purchases has apparently been approved. To receive the money, you need to pay a small registration fee today.",
+    "be": "Добры дзень. Вам нібыта ўхвалілі кампенсацыю за пакупкі. Каб пералічыць грошы, трэба сёння аплаціць невялікі рэгістрацыйны збор."
+  },
+  "call-import-compensation-detail.mp3": {
+    "ru": "Условия дадим после регистрации. Сначала перевод на карту нашего специалиста, затем вы получите большую сумму. Иначе заявка сгорит.",
+    "en": "We will provide the terms after registration. First, transfer money to our specialist’s card, and then you will receive a larger sum. Otherwise your application will expire.",
+    "be": "Умовы дамо пасля рэгістрацыі. Спачатку перавод на картку нашага спецыяліста, затым вы атрымаеце большую суму. Інакш заяўка страціць сілу."
+  },
+  "call-protect-property-start.mp3": {
+    "ru": "Вашему имуществу якобы угрожает чужая сделка. Нужно срочно провести защитную продажу и временно передать выручку на проверку.",
+    "en": "Your property is supposedly at risk from someone else’s transaction. You must urgently make a protective sale and temporarily hand over the proceeds for inspection.",
+    "be": "Вашай маёмасці нібыта пагражае чужая здзелка. Трэба тэрмінова правесці ахоўны продаж і часова перадаць выручку на праверку."
+  },
+  "call-protect-property-detail.mp3": {
+    "ru": "Сделка будет настоящей, но потом всё вернут. Не советуйтесь со своими специалистами, они не знают нашей операции.",
+    "en": "The sale will be real, but everything will be returned later. Do not consult your own advisers: they do not know about our operation.",
+    "be": "Здзелка будзе сапраўднай, але потым усё вернуць. Не райцеся са сваімі спецыялістамі, яны не ведаюць пра нашу аперацыю."
+  }
+}

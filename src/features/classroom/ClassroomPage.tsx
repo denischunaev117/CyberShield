@@ -1,3 +1,4 @@
+import { intlLocale } from "../../i18n/core";
 import { useState } from "react";
 import { Printer, Download, ArrowLeft } from "lucide-react";
 import { classroomLessons } from "../../content/classroom-lessons";
@@ -20,7 +21,7 @@ import LessonQr from "./LessonQr";
 import { FeatureFrame, StorageNotice, exportFile } from "../shared";
 import type { FeatureProps } from "../types";
 const n = (x: number | null) =>
-  x === null ? "нет данных" : Number(x.toFixed(1)).toLocaleString("ru-BY");
+  x === null ? "нет данных" : Number(x.toFixed(1)).toLocaleString(intlLocale());
 function printSheet(kind: string) {
   document.body.dataset.printSheet = kind;
   window.addEventListener(

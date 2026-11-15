@@ -27,22 +27,31 @@ export async function verifyPublicSite(address) {
   for (const path of assets) {
     if (!(await read(path)).length) throw new Error(`Empty asset: ${path}`);
   }
-  const manifest = JSON.parse(
-    (await read("audio/manifest.json")).toString("utf8"),
-  );
-  const clips = Object.entries(manifest);
-  if (!clips.length) throw new Error("Audio manifest is empty");
-  for (const [file, record] of clips) {
-    if (!/^[a-z0-9-]+\.mp3$/.test(file) || record.provider !== "ElevenLabs")
-      throw new Error("Invalid audio manifest entry");
-    const bytes = await read(`audio/${file}`);
-    if (
-      bytes.length <= 1000 ||
-      createHash("sha256").update(bytes).digest("hex") !== record.sha256
-    )
-      throw new Error(`Audio hash mismatch: ${file}`);
+  let clipCount = 0;
+  for (const locale of ["ru", "en", "be"]) {
+    const prefix = locale === "ru" ? "audio/" : `audio/${locale}/`;
+    const manifest = JSON.parse(
+      (await read(prefix + "manifest.json")).toString("utf8"),
+    );
+    const clips = Object.entries(manifest);
+    if (!clips.length) throw new Error("Audio manifest is empty");
+    for (const [file, record] of clips) {
+      if (
+        !/^[a-z0-9-]+\.mp3$/.test(file) ||
+        record.provider !== "ElevenLabs" ||
+        (locale !== "ru" && record.language !== locale)
+      )
+        throw new Error("Invalid audio manifest entry");
+      const bytes = await read(prefix + file);
+      if (
+        bytes.length <= 1000 ||
+        createHash("sha256").update(bytes).digest("hex") !== record.sha256
+      )
+        throw new Error(`Audio hash mismatch: ${locale}/${file}`);
+    }
+    clipCount += clips.length;
   }
-  return { url: base.href, assets: assets.length, clips: clips.length };
+  return { url: base.href, assets: assets.length, clips: clipCount };
 }
 
 if (

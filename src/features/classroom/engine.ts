@@ -1,3 +1,4 @@
+import { currentLocale, translateText, type Locale } from "../../i18n/core";
 import { classroomLessons, type Lesson } from "../../content/classroom-lessons";
 import { scenarios } from "../../content/scenarios";
 import { skillIds, type SkillId } from "../../content/skills";
@@ -253,6 +254,9 @@ export function groupCsv(reports: LessonReport[]) {
     "\uFEFF" +
     rows
       .map((row) =>
+        row.map((v) => (typeof v === "string" ? translateText(v) : v)),
+      )
+      .map((row) =>
         row
           .map((v) =>
             typeof v === "number"
@@ -264,11 +268,12 @@ export function groupCsv(reports: LessonReport[]) {
       .join("\r\n")
   );
 }
-export function lessonPublicUrl(id: string) {
+export function lessonPublicUrl(id: string, locale: Locale = currentLocale()) {
   if (!classroomLessons.some((l) => l.id === id))
     throw Error("Неизвестное занятие");
   const u = new URL("https://denischunaev117.github.io/CyberShield/");
   u.searchParams.set("lesson", id);
+  if (locale !== "ru") u.searchParams.set("lang", locale);
   return u.href;
 }
 export function validateLessons() {

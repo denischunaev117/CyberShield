@@ -5,10 +5,34 @@ import { createHash } from "node:crypto";
 // @ts-expect-error Node-only deployment helper has no TypeScript declarations.
 import { verifyPublicSite } from "../scripts/verify-public-site.mjs";
 
-for (const mode of ["valid", "missing-audio", "corrupt-audio"] as const) {
+for (const mode of [
+  "valid",
+  "missing-audio",
+  "corrupt-audio",
+  "missing-localized",
+] as const) {
   test(`published-site verification detects ${mode}`, async () => {
     const audio = Buffer.alloc(1200, 42);
     const server = createServer((req, res) => {
+      const localized = req.url?.match(/^\/CyberShield\/audio\/(en|be)\/(.+)$/);
+      if (localized) {
+        const [, locale, file] = localized;
+        if (file === "manifest.json")
+          return res.end(
+            JSON.stringify({
+              "call-test-start.mp3": {
+                provider: "ElevenLabs",
+                language: locale,
+                sha256: createHash("sha256").update(audio).digest("hex"),
+              },
+            }),
+          );
+        if (mode === "missing-localized") {
+          res.statusCode = 404;
+          return res.end("Not found");
+        }
+        if (file === "call-test-start.mp3") return res.end(audio);
+      }
       switch (req.url) {
         case "/CyberShield/":
           return res.end(
@@ -48,12 +72,14 @@ for (const mode of ["valid", "missing-audio", "corrupt-audio"] as const) {
         assert.deepEqual(await result, {
           url: `http://127.0.0.1:${port}/CyberShield/`,
           assets: 1,
-          clips: 1,
+          clips: 3,
         });
       else
         await assert.rejects(
           result,
-          mode === "missing-audio" ? /HTTP 404/ : /hash mismatch/,
+          mode === "missing-audio" || mode === "missing-localized"
+            ? /HTTP 404/
+            : /hash mismatch/,
         );
     } finally {
       await new Promise<void>((resolve, reject) =>
