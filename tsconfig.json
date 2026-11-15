@@ -11,7 +11,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
-    "types": ["node"]
+    "types": ["node"],
+    "jsxImportSource": "@cybershield/i18n",
+    "paths": {
+      "@cybershield/i18n/*": ["./src/i18n/*"]
+    }
   },
   "include": ["src", "tests", "vite.config.ts", "playwright.config.ts"]
 }
