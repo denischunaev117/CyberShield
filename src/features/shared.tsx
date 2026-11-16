@@ -3,6 +3,11 @@ import { useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import { scenarios } from "../content/scenarios";
 import type { FeatureProps } from "./types";
+import {
+  isNativeApp,
+  nativeExportFile,
+  nativeExportFailure,
+} from "../platform/native";
 export function FeatureFrame({
   title,
   description,
@@ -77,6 +82,10 @@ export function StorageNotice({ failed }: { failed: boolean }) {
   ) : null;
 }
 export function exportFile(name: string, type: string, data: string) {
+  if (isNativeApp()) {
+    void nativeExportFile(name, type, data).catch(nativeExportFailure);
+    return;
+  }
   const url = URL.createObjectURL(new Blob([data], { type }));
   const a = document.createElement("a");
   a.href = url;

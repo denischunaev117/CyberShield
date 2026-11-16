@@ -22,9 +22,12 @@ export function CallScene({
     const pauseWhenHidden = () => {
       if (document.visibilityState === "hidden") element?.pause();
     };
+    const pauseNative = () => element?.pause();
     document.addEventListener("visibilitychange", pauseWhenHidden);
+    window.addEventListener("cybershield:native-pause", pauseNative);
     return () => {
       document.removeEventListener("visibilitychange", pauseWhenHidden);
+      window.removeEventListener("cybershield:native-pause", pauseNative);
       element?.pause();
     };
   }, []);

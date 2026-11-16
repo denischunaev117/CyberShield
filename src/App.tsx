@@ -220,6 +220,23 @@ export default function App() {
       }
     }
   }
+  useEffect(() => {
+    const back = (event: Event) => {
+      const dialog = [
+        ...document.querySelectorAll<HTMLDialogElement>("dialog[open]"),
+      ].at(-1);
+      if (dialog) {
+        event.preventDefault();
+        if (dialog.dispatchEvent(new Event("cancel", { cancelable: true })))
+          dialog.close();
+      } else if (page !== "practice") {
+        event.preventDefault();
+        navigate("practice");
+      }
+    };
+    window.addEventListener("cybershield:native-back", back);
+    return () => window.removeEventListener("cybershield:native-back", back);
+  }, [page]);
   function saveResult(
     s: Scenario,
     outcome: "safe" | "caution" | "risk",
@@ -730,7 +747,6 @@ export default function App() {
           {page === "share" && <ShareStory />}
           {[
             "emergency",
-            "message-check",
             "link-check",
             "references",
             "diagnostics",
@@ -800,7 +816,7 @@ export default function App() {
           </p>
         )}
         <p className="quiet">
-          КиберЩит — учебное приложение для жителей Беларуси. Версия 2.3:{" "}
+          КиберЩит — учебное приложение для жителей Беларуси. Версия 2.4:{" "}
           {scenarios.length} сценариев, без регистрации.
         </p>
         <button className="primary" onClick={() => setSettings(false)}>
@@ -815,7 +831,7 @@ export default function App() {
               ? "К моему плану"
               : page === "classroom"
                 ? "К занятию"
-                : ["emergency", "message-check"].includes(page)
+                : page === "emergency"
                   ? "К инструменту"
                   : undefined
           }

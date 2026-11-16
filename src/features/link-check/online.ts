@@ -1,3 +1,6 @@
+import { Capacitor } from "@capacitor/core";
+import { nativeOnlineRequest } from "../../platform/native-online";
+
 export const linkCheckEndpoint =
   "https://cybershield-link-check.chunaevdenis.workers.dev/check";
 
@@ -102,10 +105,14 @@ export function readOnlineResult(value: unknown): OnlineResult {
 }
 
 type Transport = (url: string, init: RequestInit) => Promise<Response>;
+const defaultTransport: Transport = (url, init) =>
+  Capacitor.isNativePlatform()
+    ? nativeOnlineRequest(url, init)
+    : fetch(url, init);
 export async function checkOnline(
   value: string,
   signal: AbortSignal,
-  transport: Transport = fetch,
+  transport: Transport = defaultTransport,
 ): Promise<OnlineResult> {
   const url = prepareOnlineAddress(value);
   const abort = new AbortController();

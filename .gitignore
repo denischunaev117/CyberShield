@@ -11,3 +11,14 @@ playwright-report/
 public/ocr/core/
 public/ocr/worker.min.js
 public/ocr/worker.min.js.LICENSE.txt
+
+# Local Android SDK, build outputs and private release signing material
+android/.gradle/
+android/build/
+android/app/build/
+android/app/src/main/assets/
+android/capacitor-cordova-android-plugins/
+android/local.properties
+*.jks
+*.keystore
+*.p12

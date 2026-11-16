@@ -90,7 +90,7 @@ for (const width of [320, 390, 768])
       await page.getByRole("button", { name: "Готово", exact: true }).click();
       for (const name of [
         "Мне нужна помощь",
-        "Проверить сообщение",
+        "Проверить ссылку или QR-код",
         "Диагностика",
         "Мой план",
         "Для занятий",

@@ -6053,7 +6053,11 @@
     "Угроз не обнаружено": "No threats found",
     "Фишинг или социальная инженерия": "Phishing or social engineering",
     "Это разбор написания адреса без обращения к базам угроз. Для онлайн-проверки используйте кнопку «Проверить онлайн».": "This inspects how the address is written without consulting threat databases. To check online, use the “Check online” button.",
-    "КиберЩит — учебное приложение для жителей Беларуси. Версия 2.3:": "CyberShield is a learning app for people in Belarus. Version 2.3:"
+    "КиберЩит — учебное приложение для жителей Беларуси. Версия 2.3:": "CyberShield is a learning app for people in Belarus. Version 2.3:",
+    "Не удалось открыть меню сохранения файла. Попробуйте ещё раз.": "Could not open the file saving menu. Please try again.",
+    "Не удалось открыть печать. Попробуйте ещё раз.": "Could not open the print dialog. Please try again.",
+    "Сохранить или отправить файл": "Save or share file",
+    "КиберЩит — учебное приложение для жителей Беларуси. Версия 2.4:": "CyberShield is a learning app for people in Belarus. Version 2.4:"
   },
   "templates": {
     "{0} — учебная симуляция": "{0} — training simulation",
@@ -6078,5 +6082,5 @@
     "Недостижимый вопрос {0}": "Unreachable question {0}",
     "Используется {0} диагностика: баллы по навыкам, без личных сообщений.": "Using the {0} assessment: skill scores, without personal messages."
   },
-  "sourceHash": "e2f5e60b1528fbb39f3c60ea17d834610b75889d53fd11a8a99b9bc00ea913f4"
+  "sourceHash": "d07ff308b5eae4c6152690ef0c9d6f26a2dd20fdd74bec115977a1ab1f7eda34"
 }

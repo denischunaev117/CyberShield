@@ -6021,7 +6021,11 @@
     "Угроз не обнаружено": "No threats found",
     "Фишинг или социальная инженерия": "Phishing or social engineering",
     "Это разбор написания адреса без обращения к базам угроз. Для онлайн-проверки используйте кнопку «Проверить онлайн».": "This inspects how the address is written without consulting threat databases. To check online, use the “Check online” button.",
-    "КиберЩит — учебное приложение для жителей Беларуси. Версия 2.3:": "CyberShield is a learning app for people in Belarus. Version 2.3:"
+    "КиберЩит — учебное приложение для жителей Беларуси. Версия 2.3:": "CyberShield is a learning app for people in Belarus. Version 2.3:",
+    "Не удалось открыть меню сохранения файла. Попробуйте ещё раз.": "Could not open the file saving menu. Please try again.",
+    "Не удалось открыть печать. Попробуйте ещё раз.": "Could not open the print dialog. Please try again.",
+    "Сохранить или отправить файл": "Save or share file",
+    "КиберЩит — учебное приложение для жителей Беларуси. Версия 2.4:": "CyberShield is a learning app for people in Belarus. Version 2.4:"
   },
   "templates": {
     "{0} — учебная симуляция": "{0} — training simulation",

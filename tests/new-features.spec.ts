@@ -20,7 +20,9 @@ import {
   lessonReport,
 } from "../src/features/classroom/engine";
 async function go(page: Page, name: string) {
-  let button = page.getByRole("button", { name, exact: true });
+  let button = page
+    .locator(".desktop-sidebar")
+    .getByRole("button", { name, exact: true });
   if (!(await button.count())) {
     await page
       .getByRole("button", { name: "Все разделы", exact: true })
@@ -105,7 +107,7 @@ for (const width of [390, 1440])
     await page.goto("/");
     for (const [name, title] of [
       ["Мне нужна помощь", "Мне нужна помощь"],
-      ["Проверить сообщение", "Проверить сообщение"],
+      ["Проверить ссылку или QR-код", "Проверить ссылку или QR-код"],
       ["Диагностика", "Диагностика до и после"],
       ["Мой план", "Мой план обучения"],
       ["Для занятий", "Для занятий"],
@@ -212,50 +214,7 @@ test("no-action and uncertain help are distinct and never claim protection", asy
     page.getByRole("heading", { name: "Начните с безопасной паузы" }),
   ).toBeVisible();
 });
-test("message analysis is local, avoids code false positives, blocks private input, clears and transfers no text", async ({
-  page,
-}) => {
-  await page.goto("/");
-  await go(page, "Проверить сообщение");
-  const field = page.getByRole("textbox", {
-    name: "Обезличенный текст сообщения",
-  });
-  await field.fill(
-    "Срочно! Продиктуйте код из SMS и переведите деньги на безопасный счёт. Никому не говорите.",
-  );
-  await page.getByRole("button", { name: "Проверить", exact: true }).click();
-  await expect(
-    page.getByRole("heading", { name: "Обнаружены признаки риска" }),
-  ).toBeVisible();
-  await expect(page.locator(".analysis-result")).toContainText("Коды и пароли");
-  await page
-    .getByRole("button", { name: "Проверить другой текст", exact: true })
-    .click();
-  await expect(field).toHaveValue("");
-  await field.fill(
-    "Ваш код для собственной операции. Никому не сообщайте код из SMS.",
-  );
-  await page.getByRole("button", { name: "Проверить", exact: true }).click();
-  await expect(
-    page.getByRole("heading", { name: /Типовые признаки не найдены/ }),
-  ).toBeVisible();
-  await field.fill("Обратитесь на test@example.invalid");
-  await page.getByRole("button", { name: "Проверить", exact: true }).click();
-  await expect(page.getByRole("alert")).toContainText("почты");
-  const raw =
-    '<img src="https://example.invalid/private-picture" onerror="alert(1)"> срочно';
-  await field.fill(raw);
-  await page.getByRole("button", { name: "Проверить", exact: true }).click();
-  await expect(page.locator('img[src*="private-picture"]')).toHaveCount(0);
-  expect(await page.evaluate(() => JSON.stringify(localStorage))).not.toContain(
-    "private-picture",
-  );
-  await page
-    .getByRole("button", { name: "Перейти в помощь", exact: true })
-    .click();
-  expect(page.url()).not.toContain("private-picture");
-  await expect(page.locator("body")).not.toContainText("private-picture");
-});
+
 test("diagnostic completes different forms, reloads, handles negative change and exports no answers", async ({
   page,
 }) => {
@@ -515,13 +474,18 @@ test("new algorithms run offline once their local modules have loaded", async ({
     () => document.documentElement.dataset.localTools === "ready",
   );
   await context.setOffline(true);
-  await go(page, "Проверить сообщение");
+  await go(page, "Проверить ссылку или QR-код");
   await page
-    .getByRole("textbox", { name: "Обезличенный текст сообщения" })
-    .fill("Продиктуйте код из SMS прямо сейчас.");
-  await page.getByRole("button", { name: "Проверить", exact: true }).click();
+    .getByRole("textbox", { name: "Ссылка для проверки" })
+    .fill("https://example.com/");
+  await page
+    .getByRole("button", { name: "Разобрать адрес", exact: true })
+    .click();
   await expect(
-    page.getByRole("heading", { name: "Обнаружены признаки риска" }),
+    page.getByRole("heading", {
+      name: "Адрес разобран на устройстве",
+      exact: true,
+    }),
   ).toBeVisible();
   await go(page, "Мне нужна помощь");
   await expect(
@@ -547,7 +511,7 @@ for (const theme of ["light", "dark"])
       await page.goto("/");
       for (const section of [
         "Мне нужна помощь",
-        "Проверить сообщение",
+        "Проверить ссылку или QR-код",
         "Диагностика",
         "Мой план",
         "Для занятий",
@@ -579,11 +543,11 @@ test("production subdirectory opens all new lazy modules and preserves the lesso
       level: 2,
     }),
   ).toBeVisible();
-  await go(page, "Проверить сообщение");
+  await go(page, "Проверить ссылку или QR-код");
   expect(page.url()).not.toContain("lesson=");
   await expect(
     page.getByRole("heading", {
-      name: "Проверить сообщение",
+      name: "Проверить ссылку или QR-код",
       level: 1,
       exact: true,
     }),

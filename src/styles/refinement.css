@@ -1,0 +1,106 @@
+/* Shared visual refinement. High-contrast mode keeps its established styles. */
+:root {
+  --page: light-dark(#f4f7f4, #101916);
+  --surface: light-dark(#ffffff, #1a2721);
+  --surface-soft: light-dark(#eaf2ed, #22352b);
+  --design-shadow: light-dark(0 8px 28px #183d2510, 0 8px 28px #00000026);
+}
+body {
+  background: var(--page);
+}
+.app:not(.low-vision) .topbar {
+  background: var(--surface);
+  border-color: var(--line);
+}
+.app:not(.low-vision) .brand-icon {
+  border-radius: 0.85rem;
+  box-shadow: 0 5px 14px #123f2925;
+}
+.app:not(.low-vision) .desktop-sidebar {
+  background: var(--surface);
+}
+.app:not(.low-vision) .navigation-group-title {
+  letter-spacing: 0.09em;
+}
+.app:not(.low-vision) .nav-button {
+  border-radius: 0.7rem;
+}
+.app:not(.low-vision) .desktop-sidebar .nav-button.selected {
+  background: #215d49;
+  color: #ffffff;
+  box-shadow: 0 4px 12px #123f2920;
+}
+.app:not(.low-vision) .hero {
+  background: linear-gradient(125deg, #133e30, #225d47 65%, #194b39);
+  border-color: #3e795e;
+  box-shadow: var(--design-shadow);
+  border-radius: 1.2rem;
+}
+.app:not(.low-vision) .hero :is(h2, p, .hero-footer, .hero-footer > span) {
+  color: #f2faf5;
+}
+.app:not(.low-vision) .hero h2 em {
+  color: #b9efce;
+}
+.app:not(.low-vision) .hero-tag {
+  background: #ffffff12;
+  color: #eefaf2;
+  border-color: #8dbca1;
+}
+.app:not(.low-vision) .hero .primary {
+  color: #153e2c;
+  background: #d8f5e3;
+  border-color: #d8f5e3;
+}
+.app:not(.low-vision) :is(.scenario-card, .feature-panel, .collection-card) {
+  border-radius: 1rem;
+  box-shadow: var(--design-shadow);
+}
+.app:not(.low-vision) .feature-page > h1 {
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.app:not(.low-vision) .page-intro {
+  max-width: 70ch;
+  line-height: 1.75;
+}
+.app:not(.low-vision) .eyebrow {
+  color: var(--accent-text);
+  letter-spacing: 0.08em;
+}
+.app:not(.low-vision) .feature-page > .privacy-notice {
+  background: var(--surface-soft);
+  border-color: var(--border-strong);
+  border-radius: 1rem;
+  color: var(--text);
+}
+.app:not(.low-vision) :is(.primary, .secondary) {
+  border-radius: 0.7rem;
+}
+.app:not(.low-vision) .mobile-navigation {
+  background: var(--surface);
+  box-shadow: 0 -6px 24px #10251b12;
+}
+.app:not(.low-vision) .mobile-navigation button {
+  border-radius: 0.75rem;
+}
+.app:not(.low-vision) .mobile-navigation button[aria-current="page"] {
+  background: var(--surface-soft);
+  color: var(--accent-text);
+}
+.app:not(.low-vision) .navigation-dialog {
+  background: var(--surface);
+  border-radius: 1.2rem;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .app:not(.low-vision) .scenario-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px #183d2520;
+  }
+}
+@media print {
+  .app:not(.low-vision)
+    :is(.hero, .scenario-card, .feature-panel, .collection-card) {
+    box-shadow: none;
+  }
+}

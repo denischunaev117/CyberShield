@@ -4,6 +4,7 @@ export default tseslint.config(
   {
     ignores: [
       "dist/**",
+      "android/**",
       "public/ocr/core/**",
       "public/ocr/worker.min.js",
       "node_modules/**",

@@ -20,6 +20,11 @@ import {
 import LessonQr from "./LessonQr";
 import { FeatureFrame, StorageNotice, exportFile } from "../shared";
 import type { FeatureProps } from "../types";
+import {
+  isNativeApp,
+  nativePrint,
+  nativePrintFailure,
+} from "../../platform/native";
 const n = (x: number | null) =>
   x === null ? "нет данных" : Number(x.toFixed(1)).toLocaleString(intlLocale());
 function printSheet(kind: string) {
@@ -31,7 +36,8 @@ function printSheet(kind: string) {
     },
     { once: true },
   );
-  window.print();
+  if (isNativeApp()) void nativePrint().catch(nativePrintFailure);
+  else window.print();
 }
 export default function ClassroomPage({
   onNavigate,

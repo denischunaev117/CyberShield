@@ -10,6 +10,11 @@ import {
 import type { FeatureProps } from "../types";
 import { FeatureFrame, ScenarioLinks } from "../shared";
 import { SourceStatus } from "../references/SourceStatus";
+import {
+  isNativeApp,
+  nativePrint,
+  nativePrintFailure,
+} from "../../platform/native";
 export default function EmergencyPage({
   onNavigate,
   onOpenScenario,
@@ -141,7 +146,14 @@ export default function EmergencyPage({
                 <SourceStatus ids={guide.sourceIds} />
               </article>
               <div className="feature-actions no-print">
-                <button className="secondary" onClick={() => window.print()}>
+                <button
+                  className="secondary"
+                  onClick={() => {
+                    if (isNativeApp())
+                      void nativePrint().catch(nativePrintFailure);
+                    else window.print();
+                  }}
+                >
                   <Printer size={22} />
                   Распечатать инструкцию
                 </button>

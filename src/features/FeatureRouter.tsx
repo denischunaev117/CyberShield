@@ -1,7 +1,6 @@
 import { lazy, Suspense, Component, type ReactNode } from "react";
 import type { FeaturePage, FeatureProps } from "./types";
 const Emergency = lazy(() => import("./emergency/EmergencyPage"));
-const MessageCheck = lazy(() => import("./message-check/MessageCheckPage"));
 const LinkCheck = lazy(() => import("./link-check/LinkCheckPage"));
 const References = lazy(() => import("./references/ReferencesPage"));
 const Diagnostics = lazy(() => import("./diagnostics/DiagnosticsPage"));
@@ -10,7 +9,6 @@ const LearningPlan = lazy(() => import("./learning-plan/LearningPlanPage"));
 export function warmLocalTools() {
   return Promise.allSettled([
     import("./emergency/EmergencyPage"),
-    import("./message-check/MessageCheckPage"),
     import("./link-check/LinkCheckPage"),
     import("./diagnostics/DiagnosticsPage"),
     import("./classroom/ClassroomPage"),
@@ -25,17 +23,15 @@ export default function FeatureRouter({
   const Page =
     page === "emergency"
       ? Emergency
-      : page === "message-check"
-        ? MessageCheck
-        : page === "link-check"
-          ? LinkCheck
-          : page === "references"
-            ? References
-            : page === "diagnostics"
-              ? Diagnostics
-              : page === "classroom"
-                ? Classroom
-                : LearningPlan;
+      : page === "link-check"
+        ? LinkCheck
+        : page === "references"
+          ? References
+          : page === "diagnostics"
+            ? Diagnostics
+            : page === "classroom"
+              ? Classroom
+              : LearningPlan;
   return (
     <FeatureBoundary key={page} onNavigate={props.onNavigate}>
       <Suspense fallback={<p role="status">Открываем раздел…</p>}>

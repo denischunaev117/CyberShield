@@ -1,5 +1,6 @@
 import { createWorker, OEM, type Worker } from "tesseract.js";
 import { publicAsset } from "../../platform/assets";
+import { Capacitor } from "@capacitor/core";
 export async function createLocalOcr(
   onProgress: (value: number) => void,
 ): Promise<Worker> {
@@ -9,7 +10,8 @@ export async function createLocalOcr(
     langPath: publicAsset("ocr/lang"),
     workerBlobURL: false,
     cacheMethod: "none",
-    gzip: true,
+    // AAPT expands .gz assets and drops their suffix inside Android APKs.
+    gzip: !Capacitor.isNativePlatform(),
     logger: (m) => {
       if (m.status === "recognizing text")
         onProgress(Math.round(m.progress * 100));

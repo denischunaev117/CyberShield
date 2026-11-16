@@ -61,18 +61,21 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
     worker.current = null;
   }
   useEffect(() => {
+    const suspend = () => {
+      stopResources();
+      setCamera(false);
+      setBusy(false);
+      setOnline(null);
+      setResult(null);
+    };
     const hide = () => {
-      if (document.hidden) {
-        stopResources();
-        setCamera(false);
-        setBusy(false);
-        setOnline(null);
-        setResult(null);
-      }
+      if (document.hidden) suspend();
     };
     document.addEventListener("visibilitychange", hide);
+    window.addEventListener("cybershield:native-pause", suspend);
     return () => {
       document.removeEventListener("visibilitychange", hide);
+      window.removeEventListener("cybershield:native-pause", suspend);
       stopResources();
     };
   }, []);
