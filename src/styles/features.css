@@ -293,6 +293,53 @@
   color: inherit;
   margin-top: 0.6rem;
 }
+.link-online-result,
+.link-local-details {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.link-online-result .analysis-summary,
+.analysis-summary.link-local-neutral {
+  color: var(--text);
+  background: var(--surface-soft);
+  border-color: var(--border-strong);
+}
+.link-online-dangerous .analysis-summary {
+  color: var(--danger);
+  background: var(--danger-surface);
+  border-color: var(--danger);
+}
+.link-online-no_known_threats .analysis-summary {
+  color: var(--success);
+  background: var(--success-surface);
+  border-color: var(--success);
+}
+.link-online-result .analysis-summary p {
+  line-height: 1.65;
+}
+.link-check-time {
+  font-size: 0.9rem;
+}
+.link-local-details > summary {
+  padding: 0.8rem 0.2rem;
+  min-height: 44px;
+  cursor: pointer;
+  font-weight: 800;
+  line-height: 1.6;
+}
+.link-local-details .signal-info {
+  border-inline-start-color: var(--border-strong);
+}
+.link-shortener-note {
+  border-inline-start: 4px solid var(--warning);
+  padding-inline-start: 0.8rem;
+}
+.low-vision .link-online-result .analysis-summary,
+.low-vision .analysis-summary.link-local-neutral {
+  color: var(--lv-text);
+  background: var(--lv-bg);
+  border-color: currentColor;
+}
 .analysis-high .analysis-summary,
 .analysis-combinations {
   border-color: var(--danger);

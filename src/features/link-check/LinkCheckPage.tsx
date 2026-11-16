@@ -4,6 +4,7 @@ import {
   ImagePlus,
   Link as LinkIcon,
   ShieldAlert,
+  ShieldCheck,
   Square,
   Trash2,
 } from "lucide-react";
@@ -12,10 +13,25 @@ import { FeatureFrame } from "../shared";
 import { analyzeLink, type LinkAnalysis } from "./analyze";
 import { decodeQr, imagePixels, linksFromText } from "./media";
 import type { Worker } from "tesseract.js";
+import {
+  checkOnline,
+  prepareOnlineAddress,
+  threatDescriptions,
+  type OnlineResult,
+} from "./online";
+import { intlLocale } from "../../i18n/core";
+type OnlineState =
+  | { kind: "checking" }
+  | { kind: "done"; data: OnlineResult }
+  | { kind: "error"; message: string };
 export default function LinkCheckPage({ onNavigate }: FeatureProps) {
   const [input, setInput] = useState(""),
     [result, setResult] = useState<LinkAnalysis | null>(null),
     [error, setError] = useState("");
+  const [online, setOnline] = useState<OnlineState | null>(null);
+  const onlineRequest = useRef<AbortController | null>(null),
+    onlineGeneration = useRef(0),
+    onlineHeading = useRef<HTMLHeadingElement>(null);
   const [busy, setBusy] = useState(false),
     [camera, setCamera] = useState(false),
     [progress, setProgress] = useState(0);
@@ -29,7 +45,13 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
     worker = useRef<Worker | null>(null);
   const heading = useRef<HTMLHeadingElement>(null),
     fileInput = useRef<HTMLInputElement>(null);
+  function cancelOnline() {
+    onlineGeneration.current++;
+    onlineRequest.current?.abort();
+    onlineRequest.current = null;
+  }
   function stopResources() {
+    cancelOnline();
     generation.current++;
     cancelAnimationFrame(frame.current);
     stream.current?.getTracks().forEach((t) => t.stop());
@@ -44,6 +66,8 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
         stopResources();
         setCamera(false);
         setBusy(false);
+        setOnline(null);
+        setResult(null);
       }
     };
     document.addEventListener("visibilitychange", hide);
@@ -60,10 +84,32 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
         ?.scrollIntoView({ block: "start", behavior: "instant" });
     }
   }, [result]);
+  useEffect(() => {
+    if (!online || online.kind === "checking") return;
+    onlineHeading.current?.focus({ preventScroll: true });
+    onlineHeading.current
+      ?.closest("section")
+      ?.scrollIntoView({ block: "start", behavior: "instant" });
+    if (online.kind !== "done") return;
+    const remaining =
+      Date.parse(online.data.checkedAt) + 25 * 60 * 1000 - Date.now();
+    const timeout = setTimeout(
+      () => {
+        setOnline({
+          kind: "error",
+          message:
+            "Результат устарел. Повторите проверку, чтобы получить актуальные сведения.",
+        });
+      },
+      Math.max(0, remaining),
+    );
+    return () => clearTimeout(timeout);
+  }, [online]);
   function clear() {
     stopResources();
     setInput("");
     setResult(null);
+    setOnline(null);
     setError("");
     setCamera(false);
     setBusy(false);
@@ -74,12 +120,45 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
     if (fileInput.current) fileInput.current.value = "";
   }
   function inspect(value = input) {
+    cancelOnline();
+    setOnline(null);
     setError("");
     setResult(null);
     try {
       setResult(analyzeLink(value));
     } catch (e) {
       setError((e as Error).message);
+    }
+  }
+  async function inspectOnline() {
+    stopResources();
+    setCamera(false);
+    setBusy(false);
+    setError("");
+    setResult(null);
+    setOnline(null);
+    let local: LinkAnalysis;
+    try {
+      local = analyzeLink(input);
+      prepareOnlineAddress(input);
+    } catch (e) {
+      setError((e as Error).message);
+      return;
+    }
+    setResult(local);
+    setOnline({ kind: "checking" });
+    const request = ++onlineGeneration.current;
+    const controller = new AbortController();
+    onlineRequest.current = controller;
+    try {
+      const data = await checkOnline(input, controller.signal);
+      if (request === onlineGeneration.current)
+        setOnline({ kind: "done", data });
+    } catch (e) {
+      if (request === onlineGeneration.current)
+        setOnline({ kind: "error", message: (e as Error).message });
+    } finally {
+      if (request === onlineGeneration.current) onlineRequest.current = null;
     }
   }
   async function readImage(file: File | undefined) {
@@ -114,6 +193,9 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
   }
   async function readText() {
     if (!image) return;
+    cancelOnline();
+    setOnline(null);
+    setResult(null);
     setBusy(true);
     setError("");
     setCandidates([]);
@@ -238,21 +320,22 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
   return (
     <FeatureFrame
       title="Проверить ссылку или QR-код"
-      description="Разбираем адрес на устройстве. Не открываем сайты, не отправляем изображения и не выполняем содержимое QR-кода."
+      description="Проверяем ссылки по базе угроз Google Safe Browsing. QR-коды и текст изображений распознаются на устройстве."
       onNavigate={onNavigate}
     >
       <aside className="privacy-notice">
         <div>
-          <h2>Сначала проверьте адрес</h2>
+          <h2>Проверка по базе известных угроз</h2>
           <p>
-            Не переходите по подозрительной ссылке ради проверки. Не загружайте
-            скриншоты с чужими сообщениями, реквизитами или кодами. Поле и
-            изображение не сохраняются; очистка или выход удаляют их из раздела.
+            Вставьте адрес или прочитайте QR-код, затем нажмите «Проверить
+            онлайн». Полный адрес будет передан серверу CyberShield в Cloudflare
+            и Google Safe Browsing. Изображение и распознанный текст остаются на
+            устройстве.
           </p>
           <p>
-            Без открытия сайта нельзя узнать реальную цепочку перенаправлений,
-            содержимое страницы и конечный адрес сокращателя. Даже HTTPS и
-            отсутствие признаков не гарантируют безопасность.
+            Возможны ошибочные предупреждения и пропуск опасных сайтов. Проверка
+            не гарантирует безопасность покупки, платежа или ввода данных. Поле,
+            изображение и результат не сохраняются в приложении.
           </p>
         </div>
       </aside>
@@ -260,7 +343,7 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
         className="feature-panel"
         onSubmit={(e) => {
           e.preventDefault();
-          inspect();
+          void inspectOnline();
         }}
       >
         <label htmlFor="link-input">
@@ -272,6 +355,8 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
           maxLength={4096}
           rows={3}
           onChange={(e) => {
+            cancelOnline();
+            setOnline(null);
             setInput(e.target.value);
             setResult(null);
             setError("");
@@ -283,11 +368,25 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
           autoCorrect="off"
         />
         <p id="link-privacy">
-          Ссылка останется на устройстве. Пароли, личные токены и содержимое QR
-          не публикуются.
+          Нажимая «Проверить онлайн», вы соглашаетесь передать полный адрес
+          Cloudflare и Google для проверки. Не отправляйте ссылки с личными
+          кодами или токенами. «Разобрать адрес» работает без отправки данных.
         </p>
         <div className="feature-actions">
-          <button className="primary" type="submit" disabled={busy}>
+          <button
+            className="primary"
+            type="submit"
+            disabled={busy || online?.kind === "checking"}
+          >
+            <ShieldCheck size={22} />
+            Проверить онлайн
+          </button>
+          <button
+            className="secondary"
+            type="button"
+            onClick={() => inspect()}
+            disabled={busy}
+          >
             <LinkIcon size={22} />
             Разобрать адрес
           </button>
@@ -297,6 +396,120 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
           </button>
         </div>
       </form>
+      {error && (
+        <p role="alert" className="form-error">
+          {error}
+        </p>
+      )}
+      {online && (
+        <section
+          data-testid="link-online-result"
+          className={`link-online-result ${online.kind === "done" ? `link-online-${online.data.verdict}` : `link-online-${online.kind}`}`}
+          aria-label="Результат онлайн-проверки"
+          aria-busy={online.kind === "checking"}
+        >
+          <div className="analysis-summary">
+            {online.kind === "done" &&
+            online.data.verdict === "no_known_threats" ? (
+              <ShieldCheck size={32} />
+            ) : (
+              <ShieldAlert size={32} />
+            )}
+            <h2 ref={onlineHeading} tabIndex={-1}>
+              {online.kind === "checking"
+                ? "Проверяем ссылку по базе угроз…"
+                : online.kind === "error"
+                  ? "Не удалось завершить проверку"
+                  : online.data.verdict === "dangerous"
+                    ? "Ссылка может быть опасной"
+                    : "Угроз не обнаружено"}
+            </h2>
+            {online.kind === "checking" && (
+              <p role="status">
+                Ожидаем ответ Google Safe Browsing. Проверяемый сайт в вашем
+                браузере не открывается.
+              </p>
+            )}
+            {online.kind === "error" && (
+              <>
+                <p role="alert">{online.message}</p>
+                <p>
+                  Результат не получен. Это не означает, что ссылка безопасна
+                  или опасна.
+                </p>
+                <button
+                  className="primary"
+                  type="button"
+                  onClick={() => void inspectOnline()}
+                >
+                  Повторить онлайн-проверку
+                </button>
+              </>
+            )}
+            {online.kind === "done" && (
+              <>
+                <p>
+                  {online.data.verdict === "dangerous"
+                    ? "Google Safe Browsing пометил этот адрес как потенциально опасный. Не вводите данные, не платите и не загружайте файлы по этой ссылке."
+                    : "На момент проверки Google Safe Browsing не обнаружил этот адрес в своих списках угроз. Это не гарантия безопасности сайта или предложения."}
+                </p>
+                {online.data.threatTypes.length > 0 && (
+                  <ul>
+                    {online.data.threatTypes.map((type) => (
+                      <li key={type}>{threatDescriptions[type]}</li>
+                    ))}
+                  </ul>
+                )}
+                <p className="link-check-time">
+                  Проверено:{" "}
+                  <time dateTime={online.data.checkedAt} data-i18n="off">
+                    {new Date(online.data.checkedAt).toLocaleString(
+                      intlLocale(),
+                      {
+                        dateStyle: "short",
+                        timeStyle: "short",
+                      },
+                    )}
+                  </time>
+                </p>
+              </>
+            )}
+          </div>
+          {online.kind === "done" && (
+            <div className="feature-panel link-check-scope">
+              <p>
+                <b>Проверенный домен: </b>
+                <span data-i18n="off">
+                  {result?.domain ?? result?.hostname}
+                </span>
+              </p>
+              <p>
+                Проверен переданный адрес. Перенаправления и содержимое страницы
+                не проверялись.
+              </p>
+              {result?.signals.some((signal) => signal.id === "shortener") && (
+                <p className="link-shortener-note">
+                  <b>Сокращённая ссылка скрывает конечный адрес.</b> Результат
+                  относится к сокращателю; сайт назначения ещё не проверен.
+                </p>
+              )}
+              <p>
+                <a
+                  href="https://developers.google.com/safe-browsing/v4/advisory"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Рекомендации, предоставленные Google
+                </a>
+              </p>
+              <p>
+                Возможны ложные срабатывания и пропуск новых угроз. Подлинность
+                магазина и надёжность продавца эта проверка не устанавливает.
+              </p>
+            </div>
+          )}
+        </section>
+      )}
       <section className="feature-panel">
         <h2>Прочитать QR или скриншот</h2>
         <label className="link-upload">
@@ -306,7 +519,7 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
             ref={fileInput}
             type="file"
             accept="image/png,image/jpeg,image/webp"
-            disabled={busy}
+            disabled={busy || online?.kind === "checking"}
             onChange={(e) => void readImage(e.target.files?.[0])}
           />
         </label>
@@ -323,7 +536,7 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
             <button
               className="secondary"
               onClick={() => void readText()}
-              disabled={busy}
+              disabled={busy || online?.kind === "checking"}
             >
               Найти ссылку в тексте изображения
             </button>
@@ -333,6 +546,7 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
               className="secondary"
               onClick={() => {
                 stopResources();
+                setOnline(null);
                 setBusy(false);
                 setCamera(false);
                 setNotice("Чтение остановлено. Камера выключена.");
@@ -368,6 +582,8 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
                 data-i18n="off"
                 onClick={() => {
                   setInput(link);
+                  cancelOnline();
+                  setOnline(null);
                   setResult(null);
                   setError("");
                 }}
@@ -383,108 +599,111 @@ export default function LinkCheckPage({ onNavigate }: FeatureProps) {
           локальные языковые модули сайта; изображение остаётся на устройстве.
         </p>
       </section>
-      {error && (
-        <p role="alert" className="form-error">
-          {error}
-        </p>
-      )}
       {result && (
         <section
-          className={`analysis-result analysis-${result.level}`}
+          className={`analysis-result ${online ? "link-local-secondary" : `analysis-${result.level}`}`}
           aria-label="Результат проверки адреса"
         >
-          <div className="analysis-summary">
-            <ShieldAlert size={32} />
-            <h2 ref={heading} tabIndex={-1}>
-              {result.level === "high"
-                ? "Обнаружены опасные признаки в адресе"
-                : result.level === "attention"
-                  ? "Адрес требует дополнительной проверки"
-                  : "Явные признаки не найдены — безопасность не подтверждена"}
-            </h2>
-            <p>
-              Сайт не открывался. Не вводите данные и не платите только на
-              основании этой проверки.
-            </p>
-          </div>
-          <div className="feature-panel">
-            <h3>Куда указывает адрес</h3>
-            <dl className="url-details">
-              <dt>Основной домен</dt>
-              <dd data-i18n="off">{result.domain ?? result.hostname}</dd>
-              <dt>Полное имя узла</dt>
-              <dd data-i18n="off">{result.unicodeHostname}</dd>
-              <dt>Техническая запись</dt>
-              <dd data-i18n="off">{result.hostname}</dd>
-              <dt>Протокол</dt>
-              <dd>
-                <span data-i18n="off">{result.protocol}</span>
-                {result.inferredProtocol && (
-                  <span> (протокол добавлен условно)</span>
-                )}
-              </dd>
-            </dl>
-            <p>
-              Название банка в начале строки, пути или перед @ не меняет
-              основной домен. Даже совпадение имени с известным адресом не
-              проверяет страницу и её просьбы.
-            </p>
-          </div>
-          <div className="reference-list">
-            {result.signals.map((s) => (
-              <article
-                className={`feature-panel analysis-signal signal-${s.severity}`}
-                key={s.id}
+          <details open={!online} className="link-local-details">
+            <summary>Разбор адреса на устройстве</summary>
+            {!online && (
+              <div
+                className={`analysis-summary ${result.level === "unknown" ? "link-local-neutral" : ""}`}
               >
-                <span className="status-chip">
-                  {s.severity === "high"
-                    ? "Опасный признак"
-                    : s.severity === "medium"
-                      ? "Требует проверки"
-                      : "Пояснение адреса"}
-                </span>
-                <h3>{s.title}</h3>
-                {s.detail && <p>{s.detail}</p>}
-                <p>{s.reason}</p>
+                <ShieldAlert size={32} />
+                <h2 ref={heading} tabIndex={-1}>
+                  {result.level === "high"
+                    ? "Обнаружены опасные признаки в адресе"
+                    : result.level === "attention"
+                      ? "Адрес требует дополнительной проверки"
+                      : "Адрес разобран на устройстве"}
+                </h2>
                 <p>
-                  <b>Что сделать: </b>
-                  {s.advice}
+                  Это разбор написания адреса без обращения к базам угроз. Для
+                  онлайн-проверки используйте кнопку «Проверить онлайн».
                 </p>
-              </article>
-            ))}
-          </div>
-          {result.redirectHosts.length > 0 && (
+              </div>
+            )}
             <div className="feature-panel">
-              <h3>Другие домены внутри параметров</h3>
-              <ul data-i18n="off">
-                {result.redirectHosts.map((h) => (
-                  <li key={h} data-i18n="off">
-                    {h}
-                  </li>
-                ))}
-              </ul>
+              <h3>Куда указывает адрес</h3>
+              <dl className="url-details">
+                <dt>Основной домен</dt>
+                <dd data-i18n="off">{result.domain ?? result.hostname}</dd>
+                <dt>Полное имя узла</dt>
+                <dd data-i18n="off">{result.unicodeHostname}</dd>
+                <dt>Техническая запись</dt>
+                <dd data-i18n="off">{result.hostname}</dd>
+                <dt>Протокол</dt>
+                <dd>
+                  <span data-i18n="off">{result.protocol}</span>
+                  {result.inferredProtocol && (
+                    <span> (протокол добавлен условно)</span>
+                  )}
+                </dd>
+              </dl>
               <p>
-                Это содержимое параметров, а не проверенная цепочка переходов.
+                Название банка в начале строки, пути или перед @ не меняет
+                основной домен. Даже совпадение имени с известным адресом не
+                проверяет страницу и её просьбы.
               </p>
             </div>
-          )}
-          <div className="feature-panel">
-            <h3>Безопасный следующий шаг</h3>
-            <p>
-              Откройте знакомое приложение или самостоятельно найденный
-              официальный адрес. Свяжитесь с организацией через известный канал.
-              Если уже передали данные или деньги, перейдите в раздел помощи.
-            </p>
-            <button
-              className="primary"
-              onClick={() => {
-                clear();
-                onNavigate("emergency");
-              }}
-            >
-              Мне нужна помощь
-            </button>
-          </div>
+            <div className="reference-list">
+              {result.signals.map((s) => (
+                <article
+                  className={`feature-panel analysis-signal signal-${s.severity}`}
+                  key={s.id}
+                >
+                  <span className="status-chip">
+                    {s.severity === "high"
+                      ? "Опасный признак"
+                      : s.severity === "medium"
+                        ? "Требует проверки"
+                        : "Пояснение адреса"}
+                  </span>
+                  <h3>{s.title}</h3>
+                  {s.detail && <p>{s.detail}</p>}
+                  <p>{s.reason}</p>
+                  <p>
+                    <b>Что сделать: </b>
+                    {s.advice}
+                  </p>
+                </article>
+              ))}
+            </div>
+            {result.redirectHosts.length > 0 && (
+              <div className="feature-panel">
+                <h3>Другие домены внутри параметров</h3>
+                <ul data-i18n="off">
+                  {result.redirectHosts.map((h) => (
+                    <li key={h} data-i18n="off">
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+                <p>
+                  Это содержимое параметров, а не проверенная цепочка переходов.
+                </p>
+              </div>
+            )}
+            <div className="feature-panel">
+              <h3>Безопасный следующий шаг</h3>
+              <p>
+                Откройте знакомое приложение или самостоятельно найденный
+                официальный адрес. Свяжитесь с организацией через известный
+                канал. Если уже передали данные или деньги, перейдите в раздел
+                помощи.
+              </p>
+              <button
+                className="primary"
+                onClick={() => {
+                  clear();
+                  onNavigate("emergency");
+                }}
+              >
+                Мне нужна помощь
+              </button>
+            </div>
+          </details>
         </section>
       )}
     </FeatureFrame>
