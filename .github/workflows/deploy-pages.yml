@@ -57,4 +57,7 @@ jobs:
       - name: Verify public page, assets and every audio clip
         env:
           PUBLISHED_URL: ${{ steps.deployment.outputs.page_url }}
-        run: node scripts/verify-public-site.mjs "$PUBLISHED_URL"
+        run: |
+          node scripts/verify-public-site.mjs "$PUBLISHED_URL" > "$RUNNER_TEMP/cybershield-public-verification.json"
+          cat "$RUNNER_TEMP/cybershield-public-verification.json"
+          cat "$RUNNER_TEMP/cybershield-public-verification.json" >> "$GITHUB_STEP_SUMMARY"

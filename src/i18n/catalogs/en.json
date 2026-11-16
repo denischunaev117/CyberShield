@@ -6012,7 +6012,8 @@
     "Экран и специальные разрешения": "Screen and special permissions",
     "Я ваш директор, нужно провести платеж": "I’m your director; we need to make a payment",
     "Я ваш директор": "I’m your director",
-    "Я оплатил товар, получите деньги по ссылке": "I paid for the goods; receive your money using the link"
+    "Я оплатил товар, получите деньги по ссылке": "I paid for the goods; receive your money using the link",
+    "КиберЩит — учебное приложение для жителей Беларуси. Версия 2.2:": "CyberShield is a learning app for people in Belarus. Version 2.2:"
   },
   "templates": {
     "{0} — учебная симуляция": "{0} — training simulation",
@@ -6037,5 +6038,5 @@
     "Недостижимый вопрос {0}": "Unreachable question {0}",
     "Используется {0} диагностика: баллы по навыкам, без личных сообщений.": "Using the {0} assessment: skill scores, without personal messages."
   },
-  "sourceHash": "e7a0cfc782895fd2e487c30e3eaec2eca98ec117ad5dd600944d472f04904b7a"
+  "sourceHash": "56bcd3914751e15bc222ad5e910443691efd127debdb49eb6e9da87c81bce921"
 }

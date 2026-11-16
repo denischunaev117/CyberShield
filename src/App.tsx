@@ -800,7 +800,7 @@ export default function App() {
           </p>
         )}
         <p className="quiet">
-          КиберЩит — учебное приложение для жителей Беларуси. Версия 2.1:{" "}
+          КиберЩит — учебное приложение для жителей Беларуси. Версия 2.2:{" "}
           {scenarios.length} сценариев, без регистрации.
         </p>
         <button className="primary" onClick={() => setSettings(false)}>
